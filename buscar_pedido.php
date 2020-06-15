@@ -20,7 +20,7 @@ if(empty($_SESSION['NOMBRE'])){
     <meta name="keywords" content="au theme template">
 
     <!-- Title Page-->
-    <title>Buscar pedido</title>
+    <title>Cargar pregunta</title>
 
     <!-- Fontfaces CSS-->
     <link href="assets/css/font-face.css" rel="stylesheet" media="all">
@@ -180,7 +180,7 @@ if(empty($_SESSION['NOMBRE'])){
                                 <i class="fas fa-table"></i>Ingreso de pedido</a>
                         </li>
                         <li class="has-sub">
-                            <a class="js-arrow" href="listado.php">
+                            <a class="js-arrow" href="buscar_pedido.php">
                                 <i class="fas fa-table"></i>Buscar pedido</a>
                         </li>
                        
@@ -316,3 +316,10 @@ if(empty($_SESSION['NOMBRE'])){
     <script src="assets/vendor/select2/select2.min.js">
     </script>
 
+    <!-- Main JS-->
+    <script src="js/main.js"></script>
+
+</body>
+
+</html>
+<!-- end document-->
