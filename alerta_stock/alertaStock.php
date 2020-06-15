@@ -26,9 +26,9 @@
 	      </div>
 	      <div class="modal-body">
 	      	<?php
-						$listadoProductos = listar_producto_poco_stock();
-						if(!empty($listadoProductos)){
-					?>
+				$listadoProductos = listar_producto_poco_stock();
+				if(!empty($listadoProductos)){
+			?>
 					<table class="table table-hover">
 						<thead class="thead-dark">
 							<tr>
