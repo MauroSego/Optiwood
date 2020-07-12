@@ -176,16 +176,16 @@ if(empty($_SESSION['NOMBRE'])){
                 <nav class="navbar-sidebar">
                     <ul class="list-unstyled navbar__list">
                         <li class="has-sub">
-                            <a class="js-arrow" href="listado.php">
-                                <i class="fas fa-table"></i>Ingreso de pedido</a>
+                            <a class="js-arrow" href="categorias/registrar_categoria.php">
+                                <i class="fas fa-table"></i>Registrar categoría</a>
                         </li>
                         <li class="has-sub">
                             <a class="js-arrow" href="buscar_pedido.php">
-                                <i class="fas fa-table"></i>Buscar pedido</a>
+                                <i class="fas fa-table"></i>Editar categoría</a>
                         </li>
                         <li class="has-sub">
                             <a class="js-arrow" href="categorias.php">
-                                <i class="fas fa-table"></i>Gestión categorías</a>
+                                <i class="fas fa-table"></i>Eliminar categoría</a>
                         </li>
                        
                     </ul>
@@ -273,7 +273,7 @@ if(empty($_SESSION['NOMBRE'])){
                             <div class="col-lg-12">
                                 <div class="card">
                                     <div class="card-header">
-                                        <strong>Bienvenido al gestor de Optiwood</strong> 
+                                        <strong>Estás en la sección gestión de categorías</strong> 
                                     </div>
                                     <div class="card-body card-block">
                                         <div class="alert alert-info">

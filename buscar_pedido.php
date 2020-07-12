@@ -266,7 +266,7 @@ if(!empty($_POST['BtnBuscarPedido'])){
     </script>
 
     <!-- Main JS-->
-    <script src="js/main.js"></script>
+    <script src="assets/vendor/js/main.js"></script>
 
 </body>
 

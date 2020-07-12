@@ -46,4 +46,63 @@ function buscarPedido($nroPedido){
 	/*nropedido, producto, cantidad, estado, cliente, domicilio*/
 }
 
+/*----VALIDACIONES ------*/
+
+
+/*----FUNCIONES DE CATEGORIAS-----*/
+#Registrar categoria
+
+function InsertarCategoria(){
+	$insertSQL = "INSERT INTO categoria_producto (dsc_categoria) VALUES ('{$_POST['nombreCategoria']}')";
+	$linkConexion = conexionBD();
+
+	if(!mysqli_query($linkConexion, $insertSQL)){
+		return false;
+	} else {
+		return true;
+	}
+}
+#Listar categoria
+function ListarCategorias(){
+	$ListadoCategorias = array();
+	$linkConexion = conexionBD();
+	if($linkConexion != false){
+		$SQL = "SELECT id_categoria, dsc_categoria from categoria_producto where activo = 1 ORDER BY id_categoria asc";
+
+		$result = mysqli_query($linkConexion, $SQL);
+		$i = 0;
+		while ($data = mysqli_fetch_array($result)){
+			$ListadoCategorias[$i]['ID_CATEGORIA'] =$data['id_categoria'];
+			$ListadoCategorias[$i]['CATEGORIA'] = $data['dsc_categoria'];
+			$i++;
+		}
+	} else {
+		echo 'Error';
+	}
+	
+	return $ListadoCategorias;
+}
+
+
+#Desactivar / Eliminar categoría
+
+function Activacion_categoria($Activo, $IdCategoria){
+	if ($Activo == 1 || $Activo == 0){
+		$SQL = "UPDATE categoria_producto set activo = $Activo WHERE id_categoria = $IdCategoria";
+		
+		$linkConexion = conexionBD();
+		if(!mysqli_query($linkConexion, $SQL)){
+			return false;
+		} else {
+			return true;
+		}
+	} else {
+		return false;
+	}
+}
+
+function Testear(){
+	$mensaje = 'Funcionó el testeo';
+	return $mensaje;
+}
 ?>

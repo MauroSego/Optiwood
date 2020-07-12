@@ -9,6 +9,12 @@ if(empty($_SESSION['NOMBRE'])){
     exit;
 }
 */
+require_once '../funciones/conexion.inc.php';
+
+require_once '../funciones/funciones_BD.inc.php';
+
+
+
 ?>
 
 <head>
@@ -20,28 +26,28 @@ if(empty($_SESSION['NOMBRE'])){
     <meta name="keywords" content="au theme template">
 
     <!-- Title Page-->
-    <title>Optiwood</title>
+    <title>Optiwood - Eliminar Categoria</title>
 
     <!-- Fontfaces CSS-->
-    <link href="assets/css/font-face.css" rel="stylesheet" media="all">
-    <link href="assets/vendor/font-awesome-5/css/fontawesome-all.min.css" rel="stylesheet" media="all">
-    <link href="assets/vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
-    <link href="assets/vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
+    <link href="../assets/css/font-face.css" rel="stylesheet" media="all">
+    <link href="../assets/vendor/font-awesome-5/css/fontawesome-all.min.css" rel="stylesheet" media="all">
+    <link href="../assets/vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
+    <link href="../assets/vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
 
     <!-- Bootstrap CSS-->
-    <link href="assets/vendor/bootstrap-4.1/bootstrap.min.css" rel="stylesheet" media="all">
+    <link href="../assets/vendor/bootstrap-4.1/bootstrap.min.css" rel="stylesheet" media="all">
 
     <!-- Vendor CSS-->
-    <link href="assets/vendor/animsition/animsition.min.css" rel="stylesheet" media="all">
-    <link href="assets/vendor/bootstrap-progressbar/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet" media="all">
-    <link href="assets/vendor/wow/animate.css" rel="stylesheet" media="all">
-    <link href="assets/vendor/css-hamburgers/hamburgers.min.css" rel="stylesheet" media="all">
-    <link href="assets/vendor/slick/slick.css" rel="stylesheet" media="all">
-    <link href="assets/vendor/select2/select2.min.css" rel="stylesheet" media="all">
-    <link href="assets/vendor/perfect-scrollbar/perfect-scrollbar.css" rel="stylesheet" media="all">
+    <link href="../assets/vendor/animsition/animsition.min.css" rel="stylesheet" media="all">
+    <link href="../assets/vendor/bootstrap-progressbar/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet" media="all">
+    <link href="../assets/vendor/wow/animate.css" rel="stylesheet" media="all">
+    <link href="../assets/vendor/css-hamburgers/hamburgers.min.css" rel="stylesheet" media="all">
+    <link href="../assets/vendor/slick/slick.css" rel="stylesheet" media="all">
+    <link href="../assets/vendor/select2/select2.min.css" rel="stylesheet" media="all">
+    <link href="../assets/vendor/perfect-scrollbar/perfect-scrollbar.css" rel="stylesheet" media="all">
 
     <!-- Main CSS-->
-    <link href="assets/css/theme.css" rel="stylesheet" media="all">
+    <link href="../assets/css/theme.css" rel="stylesheet" media="all">
 
 </head>
 
@@ -169,23 +175,23 @@ if(empty($_SESSION['NOMBRE'])){
         <aside class="menu-sidebar d-none d-lg-block">
             <div class="logo">
                 <a href="#">
-                    <img src="assets/img/logo.png" alt="Optiwood" />
+                    <img src="../assets/img/logo.png" alt="Optiwood" />
                 </a>
             </div>
             <div class="menu-sidebar__content js-scrollbar1">
                 <nav class="navbar-sidebar">
                     <ul class="list-unstyled navbar__list">
                         <li class="has-sub">
-                            <a class="js-arrow" href="listado.php">
-                                <i class="fas fa-table"></i>Ingreso de pedido</a>
+                            <a class="js-arrow" href="categoria/registrar_categoria.php">
+                                <i class="fas fa-table"></i>Registrar categoría</a>
                         </li>
                         <li class="has-sub">
-                            <a class="js-arrow" href="buscar_pedido.php">
-                                <i class="fas fa-table"></i>Buscar pedido</a>
+                            <a class="js-arrow" href="#">
+                                <i class="fas fa-table"></i>Editar categoría</a>
                         </li>
                         <li class="has-sub">
-                            <a class="js-arrow" href="categorias.php">
-                                <i class="fas fa-table"></i>Gestión categorías</a>
+                            <a class="js-arrow" href="categoria/eliminar_categoria.php">
+                                <i class="fas fa-table"></i>Eliminar categoría</a>
                         </li>
                        
                     </ul>
@@ -273,17 +279,48 @@ if(empty($_SESSION['NOMBRE'])){
                             <div class="col-lg-12">
                                 <div class="card">
                                     <div class="card-header">
-                                        <strong>Bienvenido al gestor de Optiwood</strong> 
+                                        <strong>Registrar categorías</strong> 
                                     </div>
                                     <div class="card-body card-block">
-                                        <div class="alert alert-info">
-                                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                                  
-                                                </button>
-                                                <span>
-                                                  Por favor selecciona una opción del menú.</span>
-                                          </div>
-                                      
+                                        <?php 
+                                        $listado = ListarCategorias();
+
+                                        if(!empty($listado)){
+                                            $cantCategorias = count($listado);
+                                            ?>
+                                            <h3>Listado de categorias</h3>
+                                            <table class="table">
+                                                <tr>
+                                                    <th>ID categoria</th>
+                                                    <th>Categoria</th>
+                                                    <th>Editar</th>
+                                                    <th>Eliminar</th>
+                                                </tr>
+                                                <?php for($i = 0; $i < $cantCategorias; $i++){ ?>
+                                                <tr>
+                                                    <td>
+                                                        <?php echo $listado[$i]['ID_CATEGORIA']; ?>
+                                                    </td>
+                                                    <td>
+                                                        <?php echo $listado[$i]['CATEGORIA']; ?>
+                                                    </td>
+                                                    <td>
+                                                        <a href="#">Editar</a>
+                                                    </td>
+                                                    <td>
+                                                        <a href="../funciones/activacion_categoria.php?Accion=Desactivar&IdCategoria=<?php echo $listado[$i]['ID_CATEGORIA']; ?>" onclick="javascript: if (confirm('Confirma eliminar este registro?')){return true;} else {return false;}">Eliminar</a>
+                                                    </td>
+                                                </tr>
+                                            <?php    
+                                            }
+                                            ?>
+                                            </table>
+                                        <?php
+                                        } else {
+                                            echo 'No hay categorías cargadas';
+                                        }
+                                        ?>
+                                        
                                     </div>
                                   
                                 </div>
@@ -300,28 +337,28 @@ if(empty($_SESSION['NOMBRE'])){
     </div>
 
     <!-- Jquery JS-->
-    <script src="assets/vendor/jquery-3.2.1.min.js"></script>
+    <script src="../assets/vendor/jquery-3.2.1.min.js"></script>
     <!-- Bootstrap JS-->
-    <script src="assets/vendor/bootstrap-4.1/popper.min.js"></script>
-    <script src="assets/vendor/bootstrap-4.1/bootstrap.min.js"></script>
+    <script src="../assets/vendor/bootstrap-4.1/popper.min.js"></script>
+    <script src="../assets/vendor/bootstrap-4.1/bootstrap.min.js"></script>
     <!-- Vendor JS       -->
-    <script src="assets/vendor/slick/slick.min.js">
+    <script src="../assets/vendor/slick/slick.min.js">
     </script>
-    <script src="assets/vendor/wow/wow.min.js"></script>
-    <script src="assets/vendor/animsition/animsition.min.js"></script>
-    <script src="assets/vendor/bootstrap-progressbar/bootstrap-progressbar.min.js">
+    <script src="../assets/vendor/wow/wow.min.js"></script>
+    <script src="../assets/vendor/animsition/animsition.min.js"></script>
+    <script src="../assets/vendor/bootstrap-progressbar/bootstrap-progressbar.min.js">
     </script>
-    <script src="assets/vendor/counter-up/jquery.waypoints.min.js"></script>
-    <script src="assets/vendor/counter-up/jquery.counterup.min.js">
+    <script src="../assets/vendor/counter-up/jquery.waypoints.min.js"></script>
+    <script src="../assets/vendor/counter-up/jquery.counterup.min.js">
     </script>
-    <script src="assets/vendor/circle-progress/circle-progress.min.js"></script>
-    <script src="assets/vendor/perfect-scrollbar/perfect-scrollbar.js"></script>
-    <script src="assets/vendor/chartjs/Chart.bundle.min.js"></script>
-    <script src="assets/vendor/select2/select2.min.js">
+    <script src="../assets/vendor/circle-progress/circle-progress.min.js"></script>
+    <script src="../assets/vendor/perfect-scrollbar/perfect-scrollbar.js"></script>
+    <script src="../assets/vendor/chartjs/Chart.bundle.min.js"></script>
+    <script src="../assets/vendor/select2/select2.min.js">
     </script>
 
     <!-- Main JS-->
-    <script src="assets/js/main.js"></script>
+    <script src="../assets/js/main.js"></script>
 
 </body>
 

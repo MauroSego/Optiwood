@@ -15,7 +15,7 @@
     <link href="assets/vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
 
     <!-- Bootstrap CSS-->
-    <link href="vendor/bootstrap-4.1/bootstrap.min.css" rel="stylesheet" media="all">
+    <link href="assets/vendor/bootstrap-4.1/bootstrap.min.css" rel="stylesheet" media="all">
 
     <!-- Vendor CSS-->
     <link href="assets/vendor/animsition/animsition.min.css" rel="stylesheet" media="all">
@@ -74,7 +74,7 @@
   </div>
 
   <!-- Jquery JS-->
-  <script src="vendor/jquery-3.2.1.min.js"></script>
+  <script src="assets/vendor/jquery-3.2.1.min.js"></script>
   <!-- Bootstrap JS-->
   <script src="assets/vendor/bootstrap-4.1/popper.min.js"></script>
   <script src="assets/vendor/bootstrap-4.1/bootstrap.min.js"></script>
