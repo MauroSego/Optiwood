@@ -13,19 +13,36 @@ require_once '../funciones/conexion.inc.php';
 
 require_once '../funciones/funciones_BD.inc.php';
 
-if(!empty($_POST['btnRegistrarCategoria'])){
-    if(InsertarCategoria() != false){
-        $_SESSION['MensajeOK'] = "Registrado correctamente";
-    } else {
-        $_SESSION['MensajeError'] = 'No se puedo registrar la categoría. Intente nuevamente';
-    } 
+if(empty($_GET['IdCategoria']) || !is_numeric($_GET['IdCategoria'])){
+	$_SESSION['MensajeError'] = "El ID de la categoría que desea modificar es incorrecto";
+	header('Location: eliminar_categoria.php');
+	exit;
 }
+
+if (empty($_POST['btnModifCategoria'])){
+	$datoCategoria = TraerDatoCategoria($_GET['IdCategoria']);
+} else {
+	if(empty($_SESSION['MensajeError'])){
+		if(Modificar_Categoria($_GET['IdCategoria']) != false){
+			echo 'Cambio';
+			$_SESSION['MensajeOk'] = 'Categoria modificada correctamente';
+			header('Location: eliminar_categoria.php');
+			exit;
+		} else {
+			$_SESSION['MensajeError'] = 'No se pudo modificar la categoria seleccionada. Intente nuevamente';
+		}
+	}
+	/*$datoCategoria['ID_CATEGORIA'] != empty($_POST['IdCategoria'])?$_POST['IdCategoria']:'';
+	$datoCategoria['CATEGORIA'] != empty($_POST['nombreCategoria'])?$_POST['nombreCategoria']:'';*/
+}
+
 ?>
 
 <head>
-    <?php require_once '../includes/header.inc.php'; ?>
-    <title>Optiwood - Registrar categoría</title>
-
+	<?php require_once '../includes/header.inc.php'; ?>
+	<!-- Title Page-->
+	<title>Optiwood - Eliminar Categoria</title>
+	
 </head>
 
 <body class="animsition">
@@ -159,7 +176,7 @@ if(!empty($_POST['btnRegistrarCategoria'])){
                 <nav class="navbar-sidebar">
                     <ul class="list-unstyled navbar__list">
                         <li class="has-sub">
-                            <a class="js-arrow" href="../categoria/registrar_categoria.php">
+                            <a class="js-arrow" href="categoria/registrar_categoria.php">
                                 <i class="fas fa-table"></i>Registrar categoría</a>
                         </li>
                         <li class="has-sub">
@@ -167,7 +184,7 @@ if(!empty($_POST['btnRegistrarCategoria'])){
                                 <i class="fas fa-table"></i>Editar categoría</a>
                         </li>
                         <li class="has-sub">
-                            <a class="js-arrow" href="../categoria/eliminar_categoria.php">
+                            <a class="js-arrow" href="eliminar_categoria.php">
                                 <i class="fas fa-table"></i>Eliminar categoría</a>
                         </li>
                        
@@ -256,25 +273,27 @@ if(!empty($_POST['btnRegistrarCategoria'])){
                             <div class="col-lg-12">
                                 <div class="card">
                                     <div class="card-header">
-                                        <strong>Registrar categorías</strong> 
+                                        <strong>Modificar categoría</strong> 
                                     </div>
                                     <div class="card-body card-block">
-                                        <form method="post" class="form-group">
-                                            <label for="nombre_categoria"></label>
-                                            <input name="nombreCategoria" type="text" class="form-control" id="nombreCategoria">
-                                            <input type="submit" class="btn btn-primary" name="btnRegistrarCategoria" value="Registrar"/>
-                                        </form>
-                                        <?php if(!empty($_SESSION['MensajeError'])) { ?>
-                                            <div style="color:red">
-                                                <?php echo $_SESSION['MensajeError'] ?>
-                                            </div>
-                                        <?php } ?>
-                                        <?php
-                                            if(!empty($_SESSION['MensajeOK'])) { ?>
-                                            <div style="color: #13b54c;">
-                                                <?php echo $_SESSION['MensajeOK'] ?>
-                                            </div>
-                                            <?php } ?>                                      
+										<form method="post" action="modificar_categoria.php?IdCategoria=<?php echo $_GET['IdCategoria'];?>">
+											<?php if(!empty($_SESSION['MensajeError'])){ ?> 
+											<div style="color: red;">
+												<?php echo $_SESSION['MensajeError']; ?>
+											</div>
+											<?php } ?>
+											<?php if(!empty($_SESSION['MensajeOk'])){ ?> 
+											<div style="color: #13b54c;">
+												<?php echo $_SESSION['MensajeOk']; ?>
+											</div>
+											<?php } ?>
+											<strong><label for="IdCategoria">ID Categoría: </label></strong>
+											<input type="text" name="IdCategoria" value="<?php echo $datoCategoria['ID_CATEGORIA']; ?>"/>
+											<strong><label for="nombreCategoria">Categoría: </label></strong>
+											<input type="text" name="nombreCategoria" value="<?php echo $datoCategoria['CATEGORIA']; ?>"/>
+											<br/>
+											<input type="submit" class="btn btn-primary" name="btnModifCategoria" value="Modificar nombre de la categoría"/>											
+										</form>
                                     </div>
                                   
                                 </div>

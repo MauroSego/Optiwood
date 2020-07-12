@@ -176,7 +176,7 @@ if(empty($_SESSION['NOMBRE'])){
                 <nav class="navbar-sidebar">
                     <ul class="list-unstyled navbar__list">
                         <li class="has-sub">
-                            <a class="js-arrow" href="categorias/registrar_categoria.php">
+                            <a class="js-arrow" href="../categoria/registrar_categoria.php">
                                 <i class="fas fa-table"></i>Registrar categoría</a>
                         </li>
                         <li class="has-sub">
@@ -184,7 +184,7 @@ if(empty($_SESSION['NOMBRE'])){
                                 <i class="fas fa-table"></i>Editar categoría</a>
                         </li>
                         <li class="has-sub">
-                            <a class="js-arrow" href="categorias.php">
+                            <a class="js-arrow" href="../categoria/eliminar_categoria.php">
                                 <i class="fas fa-table"></i>Eliminar categoría</a>
                         </li>
                        

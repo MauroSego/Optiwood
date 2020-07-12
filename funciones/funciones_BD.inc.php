@@ -100,9 +100,34 @@ function Activacion_categoria($Activo, $IdCategoria){
 		return false;
 	}
 }
+#Traer categorias
 
-function Testear(){
-	$mensaje = 'Funcionó el testeo';
-	return $mensaje;
+function TraerDatoCategoria($IdCategoria){
+	$DatosCategoria = array();
+
+	$linkConexion = conexionBD();
+	if($linkConexion != false) {
+		$SQL = "SELECT id_categoria, dsc_categoria from categoria_producto where id_categoria = $IdCategoria";
+
+		$rs = mysqli_query($linkConexion, $SQL);
+		$i = 0;
+
+		$data = mysqli_fetch_array($rs);
+		$DatosCategoria['ID_CATEGORIA'] = $data['id_categoria'];
+		$DatosCategoria['CATEGORIA'] = $data['dsc_categoria'];
+		
+		return $DatosCategoria;
+	}
 }
+function Modificar_Categoria($IdCategoria){
+	$SQL = "UPDATE categoria_producto set id_categoria='{$_POST['IdCategoria']}', dsc_categoria='{$_POST['nombreCategoria']}' where id_categoria=$IdCategoria";
+	$linkConexion = conexionBD();
+
+	if(!mysqli_query($linkConexion, $SQL)){
+		return false;	
+	} else {
+		return true;
+	}
+}
+
 ?>
