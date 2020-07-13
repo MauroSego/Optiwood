@@ -13,17 +13,35 @@ require_once '../funciones/conexion.inc.php';
 
 require_once '../funciones/funciones_BD.inc.php';
 
+if(empty($_GET['IdFormaPago']) || !is_numeric($_GET['IdFormaPago'])){
+	$_SESSION['MensajeError'] = "El ID de la categoría que desea modificar es incorrecto";
+	header('Location: ../formas_pago.php');
+	exit;
+}
 
+if (empty($_POST['btnModifFormaPago'])){
+	$datoCategoria = TraerDatoFP($_GET['IdFormaPago']);
+} else {
+	if(empty($_SESSION['MensajeError'])){
+		if(Modificar_FP($_GET['IdFormaPago']) != false){
+			$_SESSION['MensajeOk'] = 'Forma de pago modificada correctamente';
+			header('Location: ../formas_pago.php');
+			exit;
+		} else {
+			$_SESSION['MensajeError'] = 'No se pudo modificar la forma de pago seleccionada. Intente nuevamente';
+		}
+	}
+	/*$datoCategoria['ID_CATEGORIA'] != empty($_POST['IdCategoria'])?$_POST['IdCategoria']:'';
+	$datoCategoria['CATEGORIA'] != empty($_POST['nombreCategoria'])?$_POST['nombreCategoria']:'';*/
+}
 
 ?>
 
 <head>
-    <?php require_once '../includes/header.inc.php'; ?>
-    <!-- Title Page-->
-    <title>Optiwood - Eliminar/modificar cliente</title>
-
-    
-
+	<?php require_once '../includes/header.inc.php'; ?>
+	<!-- Title Page-->
+	<title>Optiwood - Modificar forma de pago</title>
+	
 </head>
 
 <body class="animsition">
@@ -149,7 +167,7 @@ require_once '../funciones/funciones_BD.inc.php';
         <!-- MENU SIDEBAR-->
         <aside class="menu-sidebar d-none d-lg-block">
             <div class="logo">
-                <a href="../index.php">
+                <a href="#">
                     <img src="../assets/img/logo.png" alt="Optiwood" />
                 </a>
             </div>
@@ -157,12 +175,12 @@ require_once '../funciones/funciones_BD.inc.php';
                 <nav class="navbar-sidebar">
                     <ul class="list-unstyled navbar__list">
                         <li class="has-sub">
-                            <a class="js-arrow" href="../categoria/registrar_categoria.php">
-                                <i class="fas fa-table"></i>Registrar cliente</a>
+                            <a class="js-arrow" href="registrar_formapago.php">
+                                <i class="fas fa-table"></i>Registrar Forma de pago</a>
                         </li>
                         <li class="has-sub">
-                            <a class="js-arrow" href="eliminar_categoria.php">
-                                <i class="fas fa-table"></i>Eliminar/modificar cliente</a>
+                            <a class="js-arrow" href="../formas_pago.php">
+                                <i class="fas fa-table"></i>Eliminar / modificar forma de pago</a>
                         </li>
                        
                     </ul>
@@ -250,64 +268,27 @@ require_once '../funciones/funciones_BD.inc.php';
                             <div class="col-lg-12">
                                 <div class="card">
                                     <div class="card-header">
-                                        <strong>Eliminar / modificar clientes</strong> 
+                                        <strong>Modificar categoría</strong> 
                                     </div>
                                     <div class="card-body card-block">
-                                        <?php 
-                                        $listado = ListarClientes();
-
-                                        if(!empty($listado)){
-                                            $cantClientes = count($listado);
-                                            ?>
-                                            <h3>Listado de clientes</h3>
-                                            <table class="table">
-                                                <tr>
-                                                    <th>ID Cliente</th>
-                                                    <th>Nombre</th>
-                                                    <th>Apellido</th>
-                                                    <th>Domicilio</th>
-                                                    <th>DNI</th>
-                                                    <th>Telefono</th>
-                                                    <th>Editar</th>
-                                                    <th>Eliminar</th>
-                                                </tr>
-                                                <?php for($i = 0; $i < $cantClientes; $i++){ ?>
-                                                <tr>
-                                                    <td>
-                                                        <?php echo $listado[$i]['ID_CLIENTE']; ?>
-                                                    </td>
-                                                    <td>
-                                                        <?php echo $listado[$i]['NOMBRE']; ?>
-                                                    </td>
-                                                    <td>
-                                                        <?php echo $listado[$i]['APELLIDO']; ?>
-                                                    </td>
-                                                    <td>
-                                                        <?php echo $listado[$i]['DOMICILIO']; ?>
-                                                    </td>
-                                                    <td>
-                                                        <?php echo $listado[$i]['DNI']; ?>
-                                                    </td>
-                                                    <td>
-                                                        <?php echo $listado[$i]['TELEFONO']; ?>
-                                                    </td>
-                                                    <td>
-                                                        <a href="modificar_cliente.php?IdCliente=<?php echo $listado[$i]['ID_CLIENTE']; ?>">Editar</a>
-                                                    </td>
-                                                    <td>
-                                                        <a href="../funciones/activacion_cliente.php?Accion=Desactivar&IdCliente=<?php echo $listado[$i]['ID_CLIENTE']; ?>" onclick="javascript: if (confirm('Confirma eliminar este registro?')){return true;} else {return false;}">Eliminar</a>
-                                                    </td>
-                                                </tr>
-                                            <?php    
-                                            }
-                                            ?>
-                                            </table>
-                                        <?php
-                                        } else {
-                                            echo 'No hay categorías cargadas';
-                                        }
-                                        ?>
-                                        
+										<form method="post" action="modificar_forma_pago.php?IdFormaPago=<?php echo $_GET['IdFormaPago'];?>">
+											<?php if(!empty($_SESSION['MensajeError'])){ ?> 
+											<div style="color: red;">
+												<?php echo $_SESSION['MensajeError']; ?>
+											</div>
+											<?php } ?>
+											<?php if(!empty($_SESSION['MensajeOk'])){ ?> 
+											<div style="color: #13b54c;">
+												<?php echo $_SESSION['MensajeOk']; ?>
+											</div>
+											<?php } ?>
+											<strong><label for="IdFormaPago">ID Categoría: </label></strong>
+											<input class="form-control" type="text" name="IdFormaPago" value="<?php echo $datoCategoria['ID_FORMA_PAGO']; ?>"/>
+											<strong><label for="nombreFormaPago">Categoría: </label></strong>
+											<input class="form-control" type="text" name="nombreFormaPago" value="<?php echo $datoCategoria['FORMA_PAGO']; ?>"/>
+                                            <input type="submit" class="btn btn-primary" name="btnModifFormaPago" value="Modificar nombre de la forma de pago"/>
+                                            
+										</form>
                                     </div>
                                   
                                 </div>

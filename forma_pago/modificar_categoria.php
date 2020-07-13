@@ -13,17 +13,36 @@ require_once '../funciones/conexion.inc.php';
 
 require_once '../funciones/funciones_BD.inc.php';
 
+if(empty($_GET['IdCategoria']) || !is_numeric($_GET['IdCategoria'])){
+	$_SESSION['MensajeError'] = "El ID de la categoría que desea modificar es incorrecto";
+	header('Location: eliminar_categoria.php');
+	exit;
+}
 
+if (empty($_POST['btnModifCategoria'])){
+	$datoCategoria = TraerDatoCategoria($_GET['IdCategoria']);
+} else {
+	if(empty($_SESSION['MensajeError'])){
+		if(Modificar_Categoria($_GET['IdCategoria']) != false){
+			echo 'Cambio';
+			$_SESSION['MensajeOk'] = 'Categoria modificada correctamente';
+			header('Location: eliminar_categoria.php');
+			exit;
+		} else {
+			$_SESSION['MensajeError'] = 'No se pudo modificar la categoria seleccionada. Intente nuevamente';
+		}
+	}
+	/*$datoCategoria['ID_CATEGORIA'] != empty($_POST['IdCategoria'])?$_POST['IdCategoria']:'';
+	$datoCategoria['CATEGORIA'] != empty($_POST['nombreCategoria'])?$_POST['nombreCategoria']:'';*/
+}
 
 ?>
 
 <head>
-    <?php require_once '../includes/header.inc.php'; ?>
-    <!-- Title Page-->
-    <title>Optiwood - Eliminar/modificar cliente</title>
-
-    
-
+	<?php require_once '../includes/header.inc.php'; ?>
+	<!-- Title Page-->
+	<title>Optiwood - Eliminar Categoria</title>
+	
 </head>
 
 <body class="animsition">
@@ -149,7 +168,7 @@ require_once '../funciones/funciones_BD.inc.php';
         <!-- MENU SIDEBAR-->
         <aside class="menu-sidebar d-none d-lg-block">
             <div class="logo">
-                <a href="../index.php">
+                <a href="#">
                     <img src="../assets/img/logo.png" alt="Optiwood" />
                 </a>
             </div>
@@ -157,12 +176,12 @@ require_once '../funciones/funciones_BD.inc.php';
                 <nav class="navbar-sidebar">
                     <ul class="list-unstyled navbar__list">
                         <li class="has-sub">
-                            <a class="js-arrow" href="../categoria/registrar_categoria.php">
-                                <i class="fas fa-table"></i>Registrar cliente</a>
+                            <a class="js-arrow" href="categoria/registrar_categoria.php">
+                                <i class="fas fa-table"></i>Registrar categoría</a>
                         </li>
                         <li class="has-sub">
                             <a class="js-arrow" href="eliminar_categoria.php">
-                                <i class="fas fa-table"></i>Eliminar/modificar cliente</a>
+                                <i class="fas fa-table"></i>Eliminar / modificar categoría</a>
                         </li>
                        
                     </ul>
@@ -250,64 +269,27 @@ require_once '../funciones/funciones_BD.inc.php';
                             <div class="col-lg-12">
                                 <div class="card">
                                     <div class="card-header">
-                                        <strong>Eliminar / modificar clientes</strong> 
+                                        <strong>Modificar categoría</strong> 
                                     </div>
                                     <div class="card-body card-block">
-                                        <?php 
-                                        $listado = ListarClientes();
-
-                                        if(!empty($listado)){
-                                            $cantClientes = count($listado);
-                                            ?>
-                                            <h3>Listado de clientes</h3>
-                                            <table class="table">
-                                                <tr>
-                                                    <th>ID Cliente</th>
-                                                    <th>Nombre</th>
-                                                    <th>Apellido</th>
-                                                    <th>Domicilio</th>
-                                                    <th>DNI</th>
-                                                    <th>Telefono</th>
-                                                    <th>Editar</th>
-                                                    <th>Eliminar</th>
-                                                </tr>
-                                                <?php for($i = 0; $i < $cantClientes; $i++){ ?>
-                                                <tr>
-                                                    <td>
-                                                        <?php echo $listado[$i]['ID_CLIENTE']; ?>
-                                                    </td>
-                                                    <td>
-                                                        <?php echo $listado[$i]['NOMBRE']; ?>
-                                                    </td>
-                                                    <td>
-                                                        <?php echo $listado[$i]['APELLIDO']; ?>
-                                                    </td>
-                                                    <td>
-                                                        <?php echo $listado[$i]['DOMICILIO']; ?>
-                                                    </td>
-                                                    <td>
-                                                        <?php echo $listado[$i]['DNI']; ?>
-                                                    </td>
-                                                    <td>
-                                                        <?php echo $listado[$i]['TELEFONO']; ?>
-                                                    </td>
-                                                    <td>
-                                                        <a href="modificar_cliente.php?IdCliente=<?php echo $listado[$i]['ID_CLIENTE']; ?>">Editar</a>
-                                                    </td>
-                                                    <td>
-                                                        <a href="../funciones/activacion_cliente.php?Accion=Desactivar&IdCliente=<?php echo $listado[$i]['ID_CLIENTE']; ?>" onclick="javascript: if (confirm('Confirma eliminar este registro?')){return true;} else {return false;}">Eliminar</a>
-                                                    </td>
-                                                </tr>
-                                            <?php    
-                                            }
-                                            ?>
-                                            </table>
-                                        <?php
-                                        } else {
-                                            echo 'No hay categorías cargadas';
-                                        }
-                                        ?>
-                                        
+										<form method="post" action="modificar_categoria.php?IdCategoria=<?php echo $_GET['IdCategoria'];?>">
+											<?php if(!empty($_SESSION['MensajeError'])){ ?> 
+											<div style="color: red;">
+												<?php echo $_SESSION['MensajeError']; ?>
+											</div>
+											<?php } ?>
+											<?php if(!empty($_SESSION['MensajeOk'])){ ?> 
+											<div style="color: #13b54c;">
+												<?php echo $_SESSION['MensajeOk']; ?>
+											</div>
+											<?php } ?>
+											<strong><label for="IdCategoria">ID Categoría: </label></strong>
+											<input type="text" name="IdCategoria" value="<?php echo $datoCategoria['ID_CATEGORIA']; ?>"/>
+											<strong><label for="nombreCategoria">Categoría: </label></strong>
+											<input type="text" name="nombreCategoria" value="<?php echo $datoCategoria['CATEGORIA']; ?>"/>
+                                            <input type="submit" class="btn btn-primary" name="btnModifCategoria" value="Modificar nombre de la categoría"/>
+                                            
+										</form>
                                     </div>
                                   
                                 </div>

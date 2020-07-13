@@ -214,4 +214,85 @@ function Modificar_Categoria($IdCategoria){
 	}
 }
 
+/*----FUNCIONES DE FORMAS DE PAGO-----*/
+#Registrar forma de pago
+
+function InsertarFP(){
+	$insertSQL = "INSERT INTO forma_pago (dsc_forma_pago) VALUES ('{$_POST['nombreFormaPago']}')";
+	$linkConexion = conexionBD();
+
+	if(!mysqli_query($linkConexion, $insertSQL)){
+		return false;
+	} else {
+		return true;
+	}
+}
+
+#Listar formas de pago
+function ListarFP(){
+	$ListadoCategorias = array();
+	$linkConexion = conexionBD();
+	if($linkConexion != false){
+		$SQL = "SELECT id_forma_pago, dsc_forma_pago from forma_pago where activo = 1 ORDER BY id_forma_pago asc";
+
+		$result = mysqli_query($linkConexion, $SQL);
+		$i = 0;
+		while ($data = mysqli_fetch_array($result)){
+			$ListadoCategorias[$i]['ID_FORMA_PAGO'] =$data['id_forma_pago'];
+			$ListadoCategorias[$i]['FORMA_PAGO'] = $data['dsc_forma_pago'];
+			$i++;
+		}
+	} else {
+		echo 'Error';
+	}
+	
+	return $ListadoCategorias;
+}
+
+#Desactivar / Eliminar forma de pago
+
+function Activacion_forma_pago($Activo, $IdFormaPago){
+	if ($Activo == 1 || $Activo == 0){
+		$SQL = "UPDATE forma_pago set activo = $Activo WHERE id_forma_pago = $IdFormaPago";
+		
+		$linkConexion = conexionBD();
+		if(!mysqli_query($linkConexion, $SQL)){
+			return false;
+		} else {
+			return true;
+		}
+	} else {
+		return false;
+	}
+}
+#Traer categorias
+
+function TraerDatoFP($IdFormaPago){
+	$DatosCategoria = array();
+
+	$linkConexion = conexionBD();
+	if($linkConexion != false) {
+		$SQL = "SELECT id_forma_pago, dsc_forma_pago from forma_pago where id_forma_pago = $IdFormaPago";
+
+		$rs = mysqli_query($linkConexion, $SQL);
+		$i = 0;
+
+		$data = mysqli_fetch_array($rs);
+		$DatosCategoria['ID_FORMA_PAGO'] = $data['id_forma_pago'];
+		$DatosCategoria['FORMA_PAGO'] = $data['dsc_forma_pago'];
+		
+		return $DatosCategoria;
+	}
+}
+function Modificar_FP($IdFormaPago){
+	$SQL = "UPDATE forma_pago set id_forma_pago='{$_POST['IdFormaPago']}', dsc_forma_pago='{$_POST['nombreFormaPago']}' where id_forma_pago=$IdFormaPago";
+	$linkConexion = conexionBD();
+
+	if(!mysqli_query($linkConexion, $SQL)){
+		return false;	
+	} else {
+		return true;
+	}
+}
+
 ?>

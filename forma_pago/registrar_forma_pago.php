@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <?php
 /*
 session_start();
@@ -13,16 +13,18 @@ require_once '../funciones/conexion.inc.php';
 
 require_once '../funciones/funciones_BD.inc.php';
 
-
-
+if(!empty($_POST['btnRegistrarFP'])){
+    if(InsertarFP() != false){
+        $_SESSION['MensajeOK'] = "Forma de pago registrada correctamente";
+    } else {
+        $_SESSION['MensajeError'] = 'No se puedo registrar la forma de pago. Intente nuevamente';
+    } 
+}
 ?>
 
 <head>
     <?php require_once '../includes/header.inc.php'; ?>
-    <!-- Title Page-->
-    <title>Optiwood - Eliminar/modificar cliente</title>
-
-    
+    <title>Optiwood - Registrar Forma de pago</title>
 
 </head>
 
@@ -149,7 +151,7 @@ require_once '../funciones/funciones_BD.inc.php';
         <!-- MENU SIDEBAR-->
         <aside class="menu-sidebar d-none d-lg-block">
             <div class="logo">
-                <a href="../index.php">
+                <a href="#">
                     <img src="../assets/img/logo.png" alt="Optiwood" />
                 </a>
             </div>
@@ -157,12 +159,12 @@ require_once '../funciones/funciones_BD.inc.php';
                 <nav class="navbar-sidebar">
                     <ul class="list-unstyled navbar__list">
                         <li class="has-sub">
-                            <a class="js-arrow" href="../categoria/registrar_categoria.php">
-                                <i class="fas fa-table"></i>Registrar cliente</a>
+                            <a class="js-arrow" href="#">
+                                <i class="fas fa-table"></i>Registrar forma de pago</a>
                         </li>
                         <li class="has-sub">
-                            <a class="js-arrow" href="eliminar_categoria.php">
-                                <i class="fas fa-table"></i>Eliminar/modificar cliente</a>
+                            <a class="js-arrow" href="../formas_pago.php">
+                                <i class="fas fa-table"></i>Eliminar/modificar forma de pago</a>
                         </li>
                        
                     </ul>
@@ -250,64 +252,25 @@ require_once '../funciones/funciones_BD.inc.php';
                             <div class="col-lg-12">
                                 <div class="card">
                                     <div class="card-header">
-                                        <strong>Eliminar / modificar clientes</strong> 
+                                        <strong>Registrar formas de pago</strong> 
                                     </div>
                                     <div class="card-body card-block">
-                                        <?php 
-                                        $listado = ListarClientes();
-
-                                        if(!empty($listado)){
-                                            $cantClientes = count($listado);
-                                            ?>
-                                            <h3>Listado de clientes</h3>
-                                            <table class="table">
-                                                <tr>
-                                                    <th>ID Cliente</th>
-                                                    <th>Nombre</th>
-                                                    <th>Apellido</th>
-                                                    <th>Domicilio</th>
-                                                    <th>DNI</th>
-                                                    <th>Telefono</th>
-                                                    <th>Editar</th>
-                                                    <th>Eliminar</th>
-                                                </tr>
-                                                <?php for($i = 0; $i < $cantClientes; $i++){ ?>
-                                                <tr>
-                                                    <td>
-                                                        <?php echo $listado[$i]['ID_CLIENTE']; ?>
-                                                    </td>
-                                                    <td>
-                                                        <?php echo $listado[$i]['NOMBRE']; ?>
-                                                    </td>
-                                                    <td>
-                                                        <?php echo $listado[$i]['APELLIDO']; ?>
-                                                    </td>
-                                                    <td>
-                                                        <?php echo $listado[$i]['DOMICILIO']; ?>
-                                                    </td>
-                                                    <td>
-                                                        <?php echo $listado[$i]['DNI']; ?>
-                                                    </td>
-                                                    <td>
-                                                        <?php echo $listado[$i]['TELEFONO']; ?>
-                                                    </td>
-                                                    <td>
-                                                        <a href="modificar_cliente.php?IdCliente=<?php echo $listado[$i]['ID_CLIENTE']; ?>">Editar</a>
-                                                    </td>
-                                                    <td>
-                                                        <a href="../funciones/activacion_cliente.php?Accion=Desactivar&IdCliente=<?php echo $listado[$i]['ID_CLIENTE']; ?>" onclick="javascript: if (confirm('Confirma eliminar este registro?')){return true;} else {return false;}">Eliminar</a>
-                                                    </td>
-                                                </tr>
-                                            <?php    
-                                            }
-                                            ?>
-                                            </table>
+                                        <form method="post" class="form-group">
+                                            <label for="nombreFormaPago">Forma de pago</label>
+                                            <input name="nombreFormaPago" type="text" class="form-control" id="nombreFormaPago">
+                                            <input type="submit" class="btn btn-primary" name="btnRegistrarFP" value="Registrar"/>
+                                        </form>
+                                        <?php if(!empty($_SESSION['MensajeError'])) { ?>
+                                            <div style="color:red">
+                                                <?php echo $_SESSION['MensajeError'] ?>
+                                            </div>
+                                        <?php } ?>
                                         <?php
-                                        } else {
-                                            echo 'No hay categorías cargadas';
-                                        }
-                                        ?>
-                                        
+                                            if(!empty($_SESSION['MensajeOK'])) { ?>
+                                            <div style="color: #13b54c;">
+                                                <?php echo $_SESSION['MensajeOK'] ?>
+                                            </div>
+                                            <?php } ?>                                      
                                     </div>
                                   
                                 </div>

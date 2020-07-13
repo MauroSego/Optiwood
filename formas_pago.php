@@ -9,20 +9,42 @@ if(empty($_SESSION['NOMBRE'])){
     exit;
 }
 */
-require_once '../funciones/conexion.inc.php';
+require_once 'funciones/conexion.inc.php';
 
-require_once '../funciones/funciones_BD.inc.php';
-
-
-
+require_once 'funciones/funciones_BD.inc.php';
 ?>
 
 <head>
-    <?php require_once '../includes/header.inc.php'; ?>
-    <!-- Title Page-->
-    <title>Optiwood - Eliminar/modificar cliente</title>
+    <!-- Required meta tags-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="au theme template">
+    <meta name="author" content="Hau Nguyen">
+    <meta name="keywords" content="au theme template">
 
-    
+    <!-- Title Page-->
+    <title>Optiwood</title>
+
+    <!-- Fontfaces CSS-->
+    <link href="assets/css/font-face.css" rel="stylesheet" media="all">
+    <link href="assets/vendor/font-awesome-5/css/fontawesome-all.min.css" rel="stylesheet" media="all">
+    <link href="assets/vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
+    <link href="assets/vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
+
+    <!-- Bootstrap CSS-->
+    <link href="assets/vendor/bootstrap-4.1/bootstrap.min.css" rel="stylesheet" media="all">
+
+    <!-- Vendor CSS-->
+    <link href="assets/vendor/animsition/animsition.min.css" rel="stylesheet" media="all">
+    <link href="assets/vendor/bootstrap-progressbar/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet" media="all">
+    <link href="assets/vendor/wow/animate.css" rel="stylesheet" media="all">
+    <link href="assets/vendor/css-hamburgers/hamburgers.min.css" rel="stylesheet" media="all">
+    <link href="assets/vendor/slick/slick.css" rel="stylesheet" media="all">
+    <link href="assets/vendor/select2/select2.min.css" rel="stylesheet" media="all">
+    <link href="assets/vendor/perfect-scrollbar/perfect-scrollbar.css" rel="stylesheet" media="all">
+
+    <!-- Main CSS-->
+    <link href="assets/css/theme.css" rel="stylesheet" media="all">
 
 </head>
 
@@ -149,20 +171,20 @@ require_once '../funciones/funciones_BD.inc.php';
         <!-- MENU SIDEBAR-->
         <aside class="menu-sidebar d-none d-lg-block">
             <div class="logo">
-                <a href="../index.php">
-                    <img src="../assets/img/logo.png" alt="Optiwood" />
+                <a href="#">
+                    <img src="assets/img/logo.png" alt="Optiwood" />
                 </a>
             </div>
             <div class="menu-sidebar__content js-scrollbar1">
                 <nav class="navbar-sidebar">
                     <ul class="list-unstyled navbar__list">
                         <li class="has-sub">
-                            <a class="js-arrow" href="../categoria/registrar_categoria.php">
-                                <i class="fas fa-table"></i>Registrar cliente</a>
+                            <a class="js-arrow" href="forma_pago/registrar_forma_pago.php">
+                                <i class="fas fa-table"></i>Registrar forma de pago</a>
                         </li>
                         <li class="has-sub">
-                            <a class="js-arrow" href="eliminar_categoria.php">
-                                <i class="fas fa-table"></i>Eliminar/modificar cliente</a>
+                            <a class="js-arrow" href="#">
+                                <i class="fas fa-table"></i>Eliminar / Modificar formas de pago</a>
                         </li>
                        
                     </ul>
@@ -250,52 +272,36 @@ require_once '../funciones/funciones_BD.inc.php';
                             <div class="col-lg-12">
                                 <div class="card">
                                     <div class="card-header">
-                                        <strong>Eliminar / modificar clientes</strong> 
+                                        <strong>Estás en la sección gestión de categorías</strong> 
                                     </div>
                                     <div class="card-body card-block">
-                                        <?php 
-                                        $listado = ListarClientes();
+                                    <?php 
+                                        $listado = ListarFP();
 
                                         if(!empty($listado)){
-                                            $cantClientes = count($listado);
+                                            $cantFP = count($listado);
                                             ?>
-                                            <h3>Listado de clientes</h3>
+                                            <h3>Listado de categorias</h3>
                                             <table class="table">
                                                 <tr>
-                                                    <th>ID Cliente</th>
-                                                    <th>Nombre</th>
-                                                    <th>Apellido</th>
-                                                    <th>Domicilio</th>
-                                                    <th>DNI</th>
-                                                    <th>Telefono</th>
+                                                    <th>ID Forma de pago</th>
+                                                    <th>Forma de pago</th>
                                                     <th>Editar</th>
                                                     <th>Eliminar</th>
                                                 </tr>
-                                                <?php for($i = 0; $i < $cantClientes; $i++){ ?>
+                                                <?php for($i = 0; $i < $cantFP; $i++){ ?>
                                                 <tr>
                                                     <td>
-                                                        <?php echo $listado[$i]['ID_CLIENTE']; ?>
+                                                        <?php echo $listado[$i]['ID_FORMA_PAGO']; ?>
                                                     </td>
                                                     <td>
-                                                        <?php echo $listado[$i]['NOMBRE']; ?>
+                                                        <?php echo $listado[$i]['FORMA_PAGO']; ?>
                                                     </td>
                                                     <td>
-                                                        <?php echo $listado[$i]['APELLIDO']; ?>
+                                                        <a href="forma_pago/modificar_forma_pago.php?IdFormaPago=<?php echo $listado[$i]['ID_FORMA_PAGO']; ?>">Editar</a>
                                                     </td>
                                                     <td>
-                                                        <?php echo $listado[$i]['DOMICILIO']; ?>
-                                                    </td>
-                                                    <td>
-                                                        <?php echo $listado[$i]['DNI']; ?>
-                                                    </td>
-                                                    <td>
-                                                        <?php echo $listado[$i]['TELEFONO']; ?>
-                                                    </td>
-                                                    <td>
-                                                        <a href="modificar_cliente.php?IdCliente=<?php echo $listado[$i]['ID_CLIENTE']; ?>">Editar</a>
-                                                    </td>
-                                                    <td>
-                                                        <a href="../funciones/activacion_cliente.php?Accion=Desactivar&IdCliente=<?php echo $listado[$i]['ID_CLIENTE']; ?>" onclick="javascript: if (confirm('Confirma eliminar este registro?')){return true;} else {return false;}">Eliminar</a>
+                                                        <a href="funciones/activacion_forma_pago.php?Accion=Desactivar&IdFormaPago=<?php echo $listado[$i]['ID_FORMA_PAGO']; ?>" onclick="javascript: if (confirm('Confirma eliminar este registro?')){return true;} else {return false;}">Eliminar</a>
                                                     </td>
                                                 </tr>
                                             <?php    
@@ -308,6 +314,7 @@ require_once '../funciones/funciones_BD.inc.php';
                                         }
                                         ?>
                                         
+                                      
                                     </div>
                                   
                                 </div>
@@ -323,7 +330,29 @@ require_once '../funciones/funciones_BD.inc.php';
 
     </div>
 
-    <?php require_once '../includes/javascript.inc.php'; ?>
+    <!-- Jquery JS-->
+    <script src="assets/vendor/jquery-3.2.1.min.js"></script>
+    <!-- Bootstrap JS-->
+    <script src="assets/vendor/bootstrap-4.1/popper.min.js"></script>
+    <script src="assets/vendor/bootstrap-4.1/bootstrap.min.js"></script>
+    <!-- Vendor JS       -->
+    <script src="assets/vendor/slick/slick.min.js">
+    </script>
+    <script src="assets/vendor/wow/wow.min.js"></script>
+    <script src="assets/vendor/animsition/animsition.min.js"></script>
+    <script src="assets/vendor/bootstrap-progressbar/bootstrap-progressbar.min.js">
+    </script>
+    <script src="assets/vendor/counter-up/jquery.waypoints.min.js"></script>
+    <script src="assets/vendor/counter-up/jquery.counterup.min.js">
+    </script>
+    <script src="assets/vendor/circle-progress/circle-progress.min.js"></script>
+    <script src="assets/vendor/perfect-scrollbar/perfect-scrollbar.js"></script>
+    <script src="assets/vendor/chartjs/Chart.bundle.min.js"></script>
+    <script src="assets/vendor/select2/select2.min.js">
+    </script>
+
+    <!-- Main JS-->
+    <script src="assets/js/main.js"></script>
 
 </body>
 

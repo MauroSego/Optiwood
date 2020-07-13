@@ -20,7 +20,7 @@ require_once '../funciones/funciones_BD.inc.php';
 <head>
     <?php require_once '../includes/header.inc.php'; ?>
     <!-- Title Page-->
-    <title>Optiwood - Eliminar/modificar cliente</title>
+    <title>Optiwood - Eliminar Categoria</title>
 
     
 
@@ -149,7 +149,7 @@ require_once '../funciones/funciones_BD.inc.php';
         <!-- MENU SIDEBAR-->
         <aside class="menu-sidebar d-none d-lg-block">
             <div class="logo">
-                <a href="../index.php">
+                <a href="#">
                     <img src="../assets/img/logo.png" alt="Optiwood" />
                 </a>
             </div>
@@ -158,11 +158,15 @@ require_once '../funciones/funciones_BD.inc.php';
                     <ul class="list-unstyled navbar__list">
                         <li class="has-sub">
                             <a class="js-arrow" href="../categoria/registrar_categoria.php">
-                                <i class="fas fa-table"></i>Registrar cliente</a>
+                                <i class="fas fa-table"></i>Registrar categoría</a>
+                        </li>
+                        <li class="has-sub">
+                            <a class="js-arrow" href="#">
+                                <i class="fas fa-table"></i>Editar categoría</a>
                         </li>
                         <li class="has-sub">
                             <a class="js-arrow" href="eliminar_categoria.php">
-                                <i class="fas fa-table"></i>Eliminar/modificar cliente</a>
+                                <i class="fas fa-table"></i>Eliminar categoría</a>
                         </li>
                        
                     </ul>
@@ -250,52 +254,36 @@ require_once '../funciones/funciones_BD.inc.php';
                             <div class="col-lg-12">
                                 <div class="card">
                                     <div class="card-header">
-                                        <strong>Eliminar / modificar clientes</strong> 
+                                        <strong>Registrar categorías</strong> 
                                     </div>
                                     <div class="card-body card-block">
                                         <?php 
-                                        $listado = ListarClientes();
+                                        $listado = ListarCategorias();
 
                                         if(!empty($listado)){
-                                            $cantClientes = count($listado);
+                                            $cantCategorias = count($listado);
                                             ?>
-                                            <h3>Listado de clientes</h3>
+                                            <h3>Listado de categorias</h3>
                                             <table class="table">
                                                 <tr>
-                                                    <th>ID Cliente</th>
-                                                    <th>Nombre</th>
-                                                    <th>Apellido</th>
-                                                    <th>Domicilio</th>
-                                                    <th>DNI</th>
-                                                    <th>Telefono</th>
+                                                    <th>ID categoria</th>
+                                                    <th>Categoria</th>
                                                     <th>Editar</th>
                                                     <th>Eliminar</th>
                                                 </tr>
-                                                <?php for($i = 0; $i < $cantClientes; $i++){ ?>
+                                                <?php for($i = 0; $i < $cantCategorias; $i++){ ?>
                                                 <tr>
                                                     <td>
-                                                        <?php echo $listado[$i]['ID_CLIENTE']; ?>
+                                                        <?php echo $listado[$i]['ID_CATEGORIA']; ?>
                                                     </td>
                                                     <td>
-                                                        <?php echo $listado[$i]['NOMBRE']; ?>
+                                                        <?php echo $listado[$i]['CATEGORIA']; ?>
                                                     </td>
                                                     <td>
-                                                        <?php echo $listado[$i]['APELLIDO']; ?>
+                                                        <a href="modificar_categoria.php?IdCategoria=<?php echo $listado[$i]['ID_CATEGORIA']; ?>">Editar</a>
                                                     </td>
                                                     <td>
-                                                        <?php echo $listado[$i]['DOMICILIO']; ?>
-                                                    </td>
-                                                    <td>
-                                                        <?php echo $listado[$i]['DNI']; ?>
-                                                    </td>
-                                                    <td>
-                                                        <?php echo $listado[$i]['TELEFONO']; ?>
-                                                    </td>
-                                                    <td>
-                                                        <a href="modificar_cliente.php?IdCliente=<?php echo $listado[$i]['ID_CLIENTE']; ?>">Editar</a>
-                                                    </td>
-                                                    <td>
-                                                        <a href="../funciones/activacion_cliente.php?Accion=Desactivar&IdCliente=<?php echo $listado[$i]['ID_CLIENTE']; ?>" onclick="javascript: if (confirm('Confirma eliminar este registro?')){return true;} else {return false;}">Eliminar</a>
+                                                        <a href="../funciones/activacion_categoria.php?Accion=Desactivar&IdCategoria=<?php echo $listado[$i]['ID_CATEGORIA']; ?>" onclick="javascript: if (confirm('Confirma eliminar este registro?')){return true;} else {return false;}">Eliminar</a>
                                                     </td>
                                                 </tr>
                                             <?php    
