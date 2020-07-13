@@ -187,6 +187,10 @@ if(empty($_SESSION['NOMBRE'])){
                             <a class="js-arrow" href="categorias.php">
                                 <i class="fas fa-table"></i>Gestión categorías</a>
                         </li>
+                        <li class="has-sub">
+                            <a class="js-arrow" href="clientes.php">
+                                <i class="fas fa-table"></i>Gestión clientes</a>
+                        </li>
                        
                     </ul>
                 </nav>

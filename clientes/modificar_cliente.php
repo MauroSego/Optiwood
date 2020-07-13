@@ -9,40 +9,40 @@ if(empty($_SESSION['NOMBRE'])){
     exit;
 }
 */
+require_once '../funciones/conexion.inc.php';
+
+require_once '../funciones/funciones_BD.inc.php';
+
+if(empty($_GET['IdCliente']) || !is_numeric($_GET['IdCliente'])){
+	$_SESSION['MensajeError'] = "El ID de la categoría que desea modificar es incorrecto";
+	/*header('Location: eliminar_cliente.php');
+	exit;*/
+}
+
+if (empty($_POST['btnModifCliente'])){
+	$datoCliente = TraerDatoCliente($_GET['IdCliente']);
+} else {
+	if(empty($_SESSION['MensajeError'])){
+		if(Modificar_Cliente($_GET['IdCliente']) != false){
+			echo 'Cambio';
+			$_SESSION['MensajeOk'] = 'Cliente modificado correctamente';
+			header('Location: eliminar_cliente.php');
+			exit;
+		} else {
+			$_SESSION['MensajeError'] = 'No se pudo modificar al cliente seleccionado. Intente nuevamente';
+		}
+	}
+	/*$datoCategoria['ID_CATEGORIA'] != empty($_POST['IdCategoria'])?$_POST['IdCategoria']:'';
+	$datoCategoria['CATEGORIA'] != empty($_POST['nombreCategoria'])?$_POST['nombreCategoria']:'';*/
+}
+
 ?>
 
 <head>
-    <!-- Required meta tags-->
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="au theme template">
-    <meta name="author" content="Hau Nguyen">
-    <meta name="keywords" content="au theme template">
-
-    <!-- Title Page-->
-    <title>Optiwood</title>
-
-    <!-- Fontfaces CSS-->
-    <link href="assets/css/font-face.css" rel="stylesheet" media="all">
-    <link href="assets/vendor/font-awesome-5/css/fontawesome-all.min.css" rel="stylesheet" media="all">
-    <link href="assets/vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
-    <link href="assets/vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
-
-    <!-- Bootstrap CSS-->
-    <link href="assets/vendor/bootstrap-4.1/bootstrap.min.css" rel="stylesheet" media="all">
-
-    <!-- Vendor CSS-->
-    <link href="assets/vendor/animsition/animsition.min.css" rel="stylesheet" media="all">
-    <link href="assets/vendor/bootstrap-progressbar/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet" media="all">
-    <link href="assets/vendor/wow/animate.css" rel="stylesheet" media="all">
-    <link href="assets/vendor/css-hamburgers/hamburgers.min.css" rel="stylesheet" media="all">
-    <link href="assets/vendor/slick/slick.css" rel="stylesheet" media="all">
-    <link href="assets/vendor/select2/select2.min.css" rel="stylesheet" media="all">
-    <link href="assets/vendor/perfect-scrollbar/perfect-scrollbar.css" rel="stylesheet" media="all">
-
-    <!-- Main CSS-->
-    <link href="assets/css/theme.css" rel="stylesheet" media="all">
-
+	<?php require_once '../includes/header.inc.php'; ?>
+	<!-- Title Page-->
+	<title>Optiwood - Eliminar Categoria</title>
+	
 </head>
 
 <body class="animsition">
@@ -169,19 +169,19 @@ if(empty($_SESSION['NOMBRE'])){
         <aside class="menu-sidebar d-none d-lg-block">
             <div class="logo">
                 <a href="#">
-                    <img src="assets/img/logo.png" alt="Optiwood" />
+                    <img src="../assets/img/logo.png" alt="Optiwood" />
                 </a>
             </div>
             <div class="menu-sidebar__content js-scrollbar1">
                 <nav class="navbar-sidebar">
                     <ul class="list-unstyled navbar__list">
                         <li class="has-sub">
-                            <a class="js-arrow" href="../categoria/registrar_categoria.php">
-                                <i class="fas fa-table"></i>Registrar categoría</a>
+                            <a class="js-arrow" href="registrar_cliente.php">
+                                <i class="fas fa-table"></i>Registrar cliente</a>
                         </li>
                         <li class="has-sub">
-                            <a class="js-arrow" href="../categoria/eliminar_categoria.php">
-                                <i class="fas fa-table"></i>Eliminar / Modificar categorías</a>
+                            <a class="js-arrow" href="eliminar_cliente.php">
+                                <i class="fas fa-table"></i>Eliminar/modificar cliente</a>
                         </li>
                        
                     </ul>
@@ -269,17 +269,35 @@ if(empty($_SESSION['NOMBRE'])){
                             <div class="col-lg-12">
                                 <div class="card">
                                     <div class="card-header">
-                                        <strong>Estás en la sección gestión de categorías</strong> 
+                                        <strong>Modificar categoría</strong> 
                                     </div>
                                     <div class="card-body card-block">
-                                        <div class="alert alert-info">
-                                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                                  
-                                                </button>
-                                                <span>
-                                                  Por favor selecciona una opción del menú.</span>
-                                          </div>
-                                      
+										<form method="post" action="modificar_cliente.php?IdCliente=<?php echo $_GET['IdCliente'];?>">
+											<?php if(!empty($_SESSION['MensajeError'])){ ?> 
+											<div style="color: red;">
+												<?php echo $_SESSION['MensajeError']; ?>
+											</div>
+											<?php } ?>
+											<?php if(!empty($_SESSION['MensajeOk'])){ ?> 
+											<div style="color: #13b54c;">
+												<?php echo $_SESSION['MensajeOk']; ?>
+											</div>
+											<?php } ?>
+											<strong><label for="IdCliente">ID Cliente: </label></strong>
+											<input class="form-control" type="text" name="IdCliente" value="<?php echo $datoCliente['ID_CLIENTE']; ?>"/>
+											<strong><label for="nombreCliente">Nombre: </label></strong>
+                                            <input class="form-control" type="text" name="nombreCliente" value="<?php echo $datoCliente['NOMBRE']; ?>"/>
+                                            <strong><label for="apellidoCliente">Apellido: </label></strong>
+                                            <input class="form-control" type="text" name="apellidoCliente" value="<?php echo $datoCliente['APELLIDO']; ?>"/>
+                                            <strong><label for="domicilioCliente">Nombre: </label></strong>
+                                            <input class="form-control" type="text" name="domicilioCliente" value="<?php echo $datoCliente['DOMICILIO']; ?>"/>
+                                            <strong><label for="dniCliente">Nombre: </label></strong>
+                                            <input class="form-control" type="text" name="dniCliente" value="<?php echo $datoCliente['DNI']; ?>"/>
+                                            <strong><label for="telefonoCliente">Nombre: </label></strong>
+                                            <input class="form-control" type="text" name="telefonoCliente" value="<?php echo $datoCliente['TELEFONO']; ?>"/>
+											<br/>
+                                            <input type="submit" class="btn btn-primary" name="btnModifCliente" value="Modificar nombre de la categoría"/>											
+										</form>
                                     </div>
                                   
                                 </div>
@@ -295,29 +313,7 @@ if(empty($_SESSION['NOMBRE'])){
 
     </div>
 
-    <!-- Jquery JS-->
-    <script src="assets/vendor/jquery-3.2.1.min.js"></script>
-    <!-- Bootstrap JS-->
-    <script src="assets/vendor/bootstrap-4.1/popper.min.js"></script>
-    <script src="assets/vendor/bootstrap-4.1/bootstrap.min.js"></script>
-    <!-- Vendor JS       -->
-    <script src="assets/vendor/slick/slick.min.js">
-    </script>
-    <script src="assets/vendor/wow/wow.min.js"></script>
-    <script src="assets/vendor/animsition/animsition.min.js"></script>
-    <script src="assets/vendor/bootstrap-progressbar/bootstrap-progressbar.min.js">
-    </script>
-    <script src="assets/vendor/counter-up/jquery.waypoints.min.js"></script>
-    <script src="assets/vendor/counter-up/jquery.counterup.min.js">
-    </script>
-    <script src="assets/vendor/circle-progress/circle-progress.min.js"></script>
-    <script src="assets/vendor/perfect-scrollbar/perfect-scrollbar.js"></script>
-    <script src="assets/vendor/chartjs/Chart.bundle.min.js"></script>
-    <script src="assets/vendor/select2/select2.min.js">
-    </script>
-
-    <!-- Main JS-->
-    <script src="assets/js/main.js"></script>
+    <?php require_once '../includes/javascript.inc.php'; ?>
 
 </body>
 

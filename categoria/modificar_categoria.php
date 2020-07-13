@@ -180,12 +180,8 @@ if (empty($_POST['btnModifCategoria'])){
                                 <i class="fas fa-table"></i>Registrar categoría</a>
                         </li>
                         <li class="has-sub">
-                            <a class="js-arrow" href="#">
-                                <i class="fas fa-table"></i>Editar categoría</a>
-                        </li>
-                        <li class="has-sub">
                             <a class="js-arrow" href="eliminar_categoria.php">
-                                <i class="fas fa-table"></i>Eliminar categoría</a>
+                                <i class="fas fa-table"></i>Eliminar / modificar categoría</a>
                         </li>
                        
                     </ul>
@@ -291,8 +287,8 @@ if (empty($_POST['btnModifCategoria'])){
 											<input type="text" name="IdCategoria" value="<?php echo $datoCategoria['ID_CATEGORIA']; ?>"/>
 											<strong><label for="nombreCategoria">Categoría: </label></strong>
 											<input type="text" name="nombreCategoria" value="<?php echo $datoCategoria['CATEGORIA']; ?>"/>
-											<br/>
-											<input type="submit" class="btn btn-primary" name="btnModifCategoria" value="Modificar nombre de la categoría"/>											
+                                            <input type="submit" class="btn btn-primary" name="btnModifCategoria" value="Modificar nombre de la categoría"/>
+                                            
 										</form>
                                     </div>
                                   

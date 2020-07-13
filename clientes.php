@@ -18,7 +18,6 @@ if(empty($_SESSION['NOMBRE'])){
     <meta name="description" content="au theme template">
     <meta name="author" content="Hau Nguyen">
     <meta name="keywords" content="au theme template">
-
     <!-- Title Page-->
     <title>Optiwood</title>
 
@@ -176,12 +175,12 @@ if(empty($_SESSION['NOMBRE'])){
                 <nav class="navbar-sidebar">
                     <ul class="list-unstyled navbar__list">
                         <li class="has-sub">
-                            <a class="js-arrow" href="../categoria/registrar_categoria.php">
-                                <i class="fas fa-table"></i>Registrar categoría</a>
+                            <a class="js-arrow" href="clientes/registrar_cliente.php">
+                                <i class="fas fa-table"></i>Registrar clientes</a>
                         </li>
                         <li class="has-sub">
-                            <a class="js-arrow" href="../categoria/eliminar_categoria.php">
-                                <i class="fas fa-table"></i>Eliminar / Modificar categorías</a>
+                            <a class="js-arrow" href="clientes/eliminar_cliente.php">
+                                <i class="fas fa-table"></i>Eliminar / Modificar clientes</a>
                         </li>
                        
                     </ul>
@@ -318,7 +317,6 @@ if(empty($_SESSION['NOMBRE'])){
 
     <!-- Main JS-->
     <script src="assets/js/main.js"></script>
-
 </body>
 
 </html>

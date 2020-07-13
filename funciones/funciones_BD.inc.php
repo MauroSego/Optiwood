@@ -49,6 +49,90 @@ function buscarPedido($nroPedido){
 /*----VALIDACIONES ------*/
 
 
+/*----FUNCIONES DE CLIENTES ------*/
+function InsertarCliente(){
+	$insertSQL = "INSERT INTO cliente (nombre, apellido, domicilio, dni, telefono ) VALUES ('{$_POST['nombreCliente']}', '{$_POST['apellidoCliente']}', '{$_POST['domicilioCliente']}', '{$_POST['dniCliente']}', '{$_POST['telefonoCliente']}')";
+	$linkConexion = conexionBD();
+
+	if(!mysqli_query($linkConexion, $insertSQL)){
+		return false;
+	} else {
+		return true;
+	}
+}
+#Listar clientes
+function ListarClientes(){
+	$ListadoCategorias = array();
+	$linkConexion = conexionBD();
+	if($linkConexion != false){
+		$SQL = "SELECT id_cliente, nombre, apellido, domicilio, dni, telefono from cliente where activo = 1 ORDER BY id_cliente asc";
+
+		$result = mysqli_query($linkConexion, $SQL);
+		$i = 0;
+		while ($data = mysqli_fetch_array($result)){
+			$ListadoCategorias[$i]['ID_CLIENTE'] =$data['id_cliente'];
+			$ListadoCategorias[$i]['NOMBRE'] =$data['nombre'];
+			$ListadoCategorias[$i]['APELLIDO'] =$data['apellido'];
+			$ListadoCategorias[$i]['DOMICILIO'] =$data['domicilio'];
+			$ListadoCategorias[$i]['DNI'] =$data['dni'];
+			$ListadoCategorias[$i]['TELEFONO'] =$data['telefono'];
+			$i++;
+		}
+	} else {
+		echo 'Error';
+	}
+	
+	return $ListadoCategorias;
+}
+
+#Activacion clientes
+function activacion_cliente($Activo, $IdCliente){
+	if ($Activo == 1 || $Activo == 0){
+		$SQL = "UPDATE cliente set activo = $Activo WHERE id_cliente = $IdCliente";
+		
+		$linkConexion = conexionBD();
+		if(!mysqli_query($linkConexion, $SQL)){
+			return false;
+		} else {
+			return true;
+		}
+	} else {
+		return false;
+	}
+}
+function TraerDatoCliente($IdCliente){
+	$DatosCliente = array();
+
+	$linkConexion = conexionBD();
+	if($linkConexion != false) {
+		$SQL = "SELECT id_cliente, nombre, apellido, domicilio, dni, telefono from cliente where id_cliente = $IdCliente";
+
+		$rs = mysqli_query($linkConexion, $SQL);
+		$i = 0;
+
+		$data = mysqli_fetch_array($rs);
+		$DatosCliente['ID_CLIENTE'] = $data['id_cliente'];
+		$DatosCliente['NOMBRE'] = $data['nombre'];
+		$DatosCliente['APELLIDO'] = $data['apellido'];
+		$DatosCliente['DOMICILIO'] = $data['domicilio'];
+		$DatosCliente['DNI'] = $data['dni'];
+		$DatosCliente['TELEFONO'] = $data['telefono'];
+		
+		return $DatosCliente;
+	}
+}
+
+function Modificar_Cliente($IdCliente){
+	$SQL = "UPDATE cliente set id_cliente='{$_POST['IdCliente']}', nombre='{$_POST['nombreCliente']}', apellido='{$_POST['apellidoCliente']}', domicilio='{$_POST['domicilioCliente']}', dni='{$_POST['dniCliente']}', telefono = '{$_POST['telefonoCliente']}' where id_cliente=$IdCliente";
+	$linkConexion = conexionBD();
+
+	if(!mysqli_query($linkConexion, $SQL)){
+		return false;	
+	} else {
+		return true;
+	}
+}
+
 /*----FUNCIONES DE CATEGORIAS-----*/
 #Registrar categoria
 
