@@ -9,6 +9,9 @@ if(empty($_SESSION['NOMBRE'])){
     exit;
 }
 */
+require_once 'funciones/conexion.inc.php';
+
+require_once 'funciones/funciones_BD.inc.php';
 ?>
 
 <head>
@@ -176,24 +179,12 @@ if(empty($_SESSION['NOMBRE'])){
                 <nav class="navbar-sidebar">
                     <ul class="list-unstyled navbar__list">
                         <li class="has-sub">
-                            <a class="js-arrow" href="listado.php">
-                                <i class="fas fa-table"></i>Ingreso de pedido</a>
+                            <a class="js-arrow" href="banco/registrar_banco.php">
+                                <i class="fas fa-table"></i>Registrar banco</a>
                         </li>
                         <li class="has-sub">
-                            <a class="js-arrow" href="buscar_pedido.php">
-                                <i class="fas fa-table"></i>Buscar pedido</a>
-                        </li>
-                        <li class="has-sub">
-                            <a class="js-arrow" href="categorias.php">
-                                <i class="fas fa-table"></i>Gestión categorías</a>
-                        </li>
-                        <li class="has-sub">
-                            <a class="js-arrow" href="clientes.php">
-                                <i class="fas fa-table"></i>Gestión clientes</a>
-                        </li>
-                        <li class="has-sub">
-                            <a class="js-arrow" href="formas_pago.php">
-                                <i class="fas fa-table"></i>Gestión formas de pago</a>
+                            <a class="js-arrow" href="#">
+                                <i class="fas fa-table"></i>Eliminar / Modificar formas de pago</a>
                         </li>
                        
                     </ul>
@@ -281,16 +272,48 @@ if(empty($_SESSION['NOMBRE'])){
                             <div class="col-lg-12">
                                 <div class="card">
                                     <div class="card-header">
-                                        <strong>Bienvenido al gestor de Optiwood</strong> 
+                                        <strong>Estás en la sección gestión de categorías</strong> 
                                     </div>
                                     <div class="card-body card-block">
-                                        <div class="alert alert-info">
-                                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                                  
-                                                </button>
-                                                <span>
-                                                  Por favor selecciona una opción del menú.</span>
-                                          </div>
+                                    <?php 
+                                        $listado = ListarBanco();
+
+                                        if(!empty($listado)){
+                                            $cantBanco = count($listado);
+                                            ?>
+                                            <h3>Listado de categorias</h3>
+                                            <table class="table">
+                                                <tr>
+                                                    <th>ID Banco</th>
+                                                    <th>Banco</th>
+                                                    <th>Editar</th>
+                                                    <th>Eliminar</th>
+                                                </tr>
+                                                <?php for($i = 0; $i < $cantBanco; $i++){ ?>
+                                                <tr>
+                                                    <td>
+                                                        <?php echo $listado[$i]['ID_BANCO']; ?>
+                                                    </td>
+                                                    <td>
+                                                        <?php echo $listado[$i]['BANCO']; ?>
+                                                    </td>
+                                                    <td>
+                                                        <a href="banco/modificar_banco.php?IdBanco=<?php echo $listado[$i]['ID_BANCO']; ?>">Editar</a>
+                                                    </td>
+                                                    <td>
+                                                        <a href="funciones/activacion_banco.php?Accion=Desactivar&IdBanco=<?php echo $listado[$i]['ID_BANCO']; ?>" onclick="javascript: if (confirm('Confirma eliminar este registro?')){return true;} else {return false;}">Eliminar</a>
+                                                    </td>
+                                                </tr>
+                                            <?php    
+                                            }
+                                            ?>
+                                            </table>
+                                        <?php
+                                        } else {
+                                            echo 'No hay categorías cargadas';
+                                        }
+                                        ?>
+                                        
                                       
                                     </div>
                                   

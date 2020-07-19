@@ -295,4 +295,80 @@ function Modificar_FP($IdFormaPago){
 	}
 }
 
+/*----FUNCIONES DE BANCOS-----*/
+function ListarBanco(){
+	$ListadoBancos = array();
+	$linkConexion = conexionBD();
+	if($linkConexion != false){
+		$SQL = "SELECT id_banco, dsc_banco from banco where activo = 1 ORDER BY id_banco asc";
+
+		$result = mysqli_query($linkConexion, $SQL);
+		$i = 0;
+		while ($data = mysqli_fetch_array($result)){
+			$ListadoBancos[$i]['ID_BANCO'] =$data['id_banco'];
+			$ListadoBancos[$i]['BANCO'] = $data['dsc_banco'];
+			$i++;
+		}
+	} else {
+		echo 'Error';
+	}
+	
+	return $ListadoBancos;
+}
+#Registrar banco
+
+function InsertarBanco(){
+	$insertSQL = "INSERT INTO banco (dsc_banco) VALUES ('{$_POST['nombreBanco']}')";
+	$linkConexion = conexionBD();
+
+	if(!mysqli_query($linkConexion, $insertSQL)){
+		return false;
+	} else {
+		return true;
+	}
+}
+function TraerDatoBanco($IdBanco){
+	$DatosBanco = array();
+
+	$linkConexion = conexionBD();
+	if($linkConexion != false) {
+		$SQL = "SELECT id_banco, dsc_banco from banco where id_banco = $IdBanco";
+
+		$rs = mysqli_query($linkConexion, $SQL);
+		$i = 0;
+
+		$data = mysqli_fetch_array($rs);
+		$DatosBanco['ID_BANCO'] = $data['id_banco'];
+		$DatosBanco['BANCO'] = $data['dsc_banco'];
+		
+		return $DatosBanco;
+	}
+}
+function Modificar_Banco($IdBanco){
+	$SQL = "UPDATE banco set id_banco='{$_POST['IdBanco']}', dsc_banco='{$_POST['nombreBanco']}' where id_banco=$IdBanco";
+	$linkConexion = conexionBD();
+
+	if(!mysqli_query($linkConexion, $SQL)){
+		return false;	
+	} else {
+		return true;
+	}
+}
+#Desactivar / Eliminar banco
+
+function Activacion_banco($Activo, $IdBanco){
+	if ($Activo == 1 || $Activo == 0){
+		$SQL = "UPDATE banco set activo = $Activo WHERE id_banco = $IdBanco";
+		
+		$linkConexion = conexionBD();
+		if(!mysqli_query($linkConexion, $SQL)){
+			return false;
+		} else {
+			return true;
+		}
+	} else {
+		return false;
+	}
+}
+
 ?>
