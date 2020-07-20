@@ -327,6 +327,7 @@ function InsertarBanco(){
 		return true;
 	}
 }
+#Trear datso banco
 function TraerDatoBanco($IdBanco){
 	$DatosBanco = array();
 
@@ -344,6 +345,7 @@ function TraerDatoBanco($IdBanco){
 		return $DatosBanco;
 	}
 }
+#Modificar bancos
 function Modificar_Banco($IdBanco){
 	$SQL = "UPDATE banco set id_banco='{$_POST['IdBanco']}', dsc_banco='{$_POST['nombreBanco']}' where id_banco=$IdBanco";
 	$linkConexion = conexionBD();
@@ -370,5 +372,86 @@ function Activacion_banco($Activo, $IdBanco){
 		return false;
 	}
 }
+/*----FUNCIONES DE TARJETAS-----*/
+function ListarTarjeta(){
+	$ListadoTarjeta = array();
+	$linkConexion = conexionBD();
+	if($linkConexion != false){
+		$SQL = "SELECT t1.id_tarjeta, t1.dsc_tarjeta, t2.dsc_forma_pago, t3.dsc_banco from tarjeta t1 
+		INNER JOIN forma_pago t2 on (t1.id_forma_pago = t2.id_forma_pago) 
+		INNER JOIN banco t3 on (t1.id_banco = t3.id_banco) where t1.activo = 1 ORDER BY t1.dsc_tarjeta asc";
 
+		$result = mysqli_query($linkConexion, $SQL);
+		$i = 0;
+		while ($data = mysqli_fetch_array($result)){
+			$ListadoTarjeta[$i]['ID_TARJETA'] =$data['id_tarjeta'];
+			$ListadoTarjeta[$i]['TARJETA'] = $data['dsc_tarjeta'];
+			$ListadoTarjeta[$i]['FORMA_PAGO'] = $data['dsc_forma_pago'];
+			$ListadoTarjeta[$i]['BANCO'] = $data['dsc_banco'];
+			$i++;
+		}
+	} else {
+		echo 'Error';
+	}
+	
+	return $ListadoTarjeta;
+}
+#Registrar tarjeta
+
+function InsertarTarjeta(){
+	$insertSQL = "INSERT INTO tarjeta (dsc_tarjeta, id_forma_pago, id_banco) VALUES ('{$_POST['nombreTarjeta']}', '{$_POST['idFormaPago']}', '{$_POST['idBanco']}')";
+	$linkConexion = conexionBD();
+
+	if(!mysqli_query($linkConexion, $insertSQL)){
+		return false;
+	} else {
+		return true;
+	}
+}
+#Desactivar / Eliminar tarjeta
+
+function Activacion_tarjeta($Activo, $IdTarjeta){
+	if ($Activo == 1 || $Activo == 0){
+		$SQL = "UPDATE tarjeta set activo = $Activo WHERE id_tarjeta = $IdTarjeta";
+		
+		$linkConexion = conexionBD();
+		if(!mysqli_query($linkConexion, $SQL)){
+			return false;
+		} else {
+			return true;
+		}
+	} else {
+		return false;
+	}
+}
+#Trear datos tarjeta
+function TraerDatoTarjeta($IdTarjeta){
+	$DatosTarjeta = array();
+
+	$linkConexion = conexionBD();
+	if($linkConexion != false) {
+		$SQL = "SELECT id_tarjeta, dsc_tarjeta, id_forma_pago, id_banco from tarjeta where id_tarjeta = $IdTarjeta";
+
+		$rs = mysqli_query($linkConexion, $SQL);
+		$i = 0;
+
+		$data = mysqli_fetch_array($rs);
+		$DatosTarjeta['ID_TARJETA'] = $data['id_tarjeta'];
+		$DatosTarjeta['TARJETA'] = $data['dsc_tarjeta'];
+		$DatosTarjeta['ID_FORMA_PAGO'] = $data['id_forma_pago'];
+		$DatosTarjeta['ID_BANCO'] = $data['id_banco'];
+		
+		return $DatosTarjeta;
+	}
+}
+function Modificar_Tarjeta($IdTarjeta){
+	$SQL = "UPDATE tarjeta set dsc_tarjeta='{$_POST['nombreTarjeta']}', id_forma_pago='{$_POST['idFormaPago']}', id_banco='{$_POST['idBanco']}' where id_tarjeta=$IdTarjeta";
+	$linkConexion = conexionBD();
+
+	if(!mysqli_query($linkConexion, $SQL)){
+		return false;	
+	} else {
+		return true;
+	}
+}
 ?>

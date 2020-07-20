@@ -9,6 +9,9 @@ if(empty($_SESSION['NOMBRE'])){
     exit;
 }
 */
+require_once 'funciones/conexion.inc.php';
+
+require_once 'funciones/funciones_BD.inc.php';
 ?>
 
 <head>
@@ -176,32 +179,12 @@ if(empty($_SESSION['NOMBRE'])){
                 <nav class="navbar-sidebar">
                     <ul class="list-unstyled navbar__list">
                         <li class="has-sub">
-                            <a class="js-arrow" href="listado.php">
-                                <i class="fas fa-table"></i>Ingreso de pedido</a>
+                            <a class="js-arrow" href="tarjeta/registrar_tarjeta.php">
+                                <i class="fas fa-table"></i>Registrar Tarjeta</a>
                         </li>
                         <li class="has-sub">
-                            <a class="js-arrow" href="buscar_pedido.php">
-                                <i class="fas fa-table"></i>Buscar pedido</a>
-                        </li>
-                        <li class="has-sub">
-                            <a class="js-arrow" href="categorias.php">
-                                <i class="fas fa-table"></i>Gestión categorías</a>
-                        </li>
-                        <li class="has-sub">
-                            <a class="js-arrow" href="clientes.php">
-                                <i class="fas fa-table"></i>Gestión clientes</a>
-                        </li>
-                        <li class="has-sub">
-                            <a class="js-arrow" href="formas_pago.php">
-                                <i class="fas fa-table"></i>Gestión formas de pago</a>
-                        </li>
-                        <li class="has-sub">
-                            <a class="js-arrow" href="banco.php">
-                                <i class="fas fa-table"></i>Gestión de bancos</a>
-                        </li>
-                        <li class="has-sub">
-                            <a class="js-arrow" href="tarjeta.php">
-                                <i class="fas fa-table"></i>Gestión de tarjetas</a>
+                            <a class="js-arrow" href="#">
+                                <i class="fas fa-table"></i>Eliminar / Modificar tarjetas</a>
                         </li>
                        
                     </ul>
@@ -289,16 +272,56 @@ if(empty($_SESSION['NOMBRE'])){
                             <div class="col-lg-12">
                                 <div class="card">
                                     <div class="card-header">
-                                        <strong>Bienvenido al gestor de Optiwood</strong> 
+                                        <strong>Estás en la sección de gestión de tarjetas</strong> 
                                     </div>
                                     <div class="card-body card-block">
-                                        <div class="alert alert-info">
-                                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                                  
-                                                </button>
-                                                <span>
-                                                  Por favor selecciona una opción del menú.</span>
-                                          </div>
+                                    <?php 
+                                        $listado = ListarTarjeta();
+
+                                        if(!empty($listado)){
+                                            $cantTarjeta = count($listado);
+                                            ?>
+                                            <h3>Listado de categorias</h3>
+                                            <table class="table">
+                                                <tr>
+                                                    <th>ID Tarjeta</th>
+                                                    <th>Tarjeta</th>
+                                                    <th>Forma de pago</th>
+                                                    <th>Banco</th>
+                                                    <th>Editar</th>
+                                                    <th>Eliminar</th>
+                                                </tr>
+                                                <?php for($i = 0; $i < $cantTarjeta; $i++){ ?>
+                                                <tr>
+                                                    <td>
+                                                        <?php echo $listado[$i]['ID_TARJETA']; ?>
+                                                    </td>
+                                                    <td>
+                                                        <?php echo $listado[$i]['TARJETA']; ?>
+                                                    </td>
+                                                    <td>
+                                                        <?php echo $listado[$i]['FORMA_PAGO']; ?>
+                                                    </td>
+                                                    <td>
+                                                        <?php echo $listado[$i]['BANCO']; ?>
+                                                    </td>
+                                                    <td>
+                                                        <a href="tarjeta/modificar_tarjeta.php?IdTarjeta=<?php echo $listado[$i]['ID_TARJETA']; ?>">Editar</a>
+                                                    </td>
+                                                    <td>
+                                                        <a href="funciones/activacion_tarjeta.php?Accion=Desactivar&IdTarjeta=<?php echo $listado[$i]['ID_TARJETA']; ?>" onclick="javascript: if (confirm('Confirma eliminar este registro?')){return true;} else {return false;}">Eliminar</a>
+                                                    </td>
+                                                </tr>
+                                            <?php    
+                                            }
+                                            ?>
+                                            </table>
+                                        <?php
+                                        } else {
+                                            echo 'No hay tarjetas cargadas';
+                                        }
+                                        ?>
+                                        
                                       
                                     </div>
                                   

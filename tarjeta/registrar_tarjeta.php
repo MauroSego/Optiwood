@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <?php
 /*
 session_start();
@@ -9,39 +9,23 @@ if(empty($_SESSION['NOMBRE'])){
     exit;
 }
 */
+require_once '../funciones/conexion.inc.php';
+
+require_once '../funciones/funciones_BD.inc.php';
+
+if(!empty($_POST['btnRegistrarTarjeta'])){
+    if(InsertarTarjeta() != false){
+        $_SESSION['MensajeOK'] = "Tarjeta registrado correctamente";
+    } else {
+        $_SESSION['MensajeError'] = 'No se puedo registrar la tarjeta. Intente nuevamente';
+
+    } 
+}
 ?>
 
 <head>
-    <!-- Required meta tags-->
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="au theme template">
-    <meta name="author" content="Hau Nguyen">
-    <meta name="keywords" content="au theme template">
-
-    <!-- Title Page-->
-    <title>Optiwood</title>
-
-    <!-- Fontfaces CSS-->
-    <link href="assets/css/font-face.css" rel="stylesheet" media="all">
-    <link href="assets/vendor/font-awesome-5/css/fontawesome-all.min.css" rel="stylesheet" media="all">
-    <link href="assets/vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
-    <link href="assets/vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
-
-    <!-- Bootstrap CSS-->
-    <link href="assets/vendor/bootstrap-4.1/bootstrap.min.css" rel="stylesheet" media="all">
-
-    <!-- Vendor CSS-->
-    <link href="assets/vendor/animsition/animsition.min.css" rel="stylesheet" media="all">
-    <link href="assets/vendor/bootstrap-progressbar/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet" media="all">
-    <link href="assets/vendor/wow/animate.css" rel="stylesheet" media="all">
-    <link href="assets/vendor/css-hamburgers/hamburgers.min.css" rel="stylesheet" media="all">
-    <link href="assets/vendor/slick/slick.css" rel="stylesheet" media="all">
-    <link href="assets/vendor/select2/select2.min.css" rel="stylesheet" media="all">
-    <link href="assets/vendor/perfect-scrollbar/perfect-scrollbar.css" rel="stylesheet" media="all">
-
-    <!-- Main CSS-->
-    <link href="assets/css/theme.css" rel="stylesheet" media="all">
+    <?php require_once '../includes/header.inc.php'; ?>
+    <title>Optiwood - Registrar Banco</title>
 
 </head>
 
@@ -169,39 +153,19 @@ if(empty($_SESSION['NOMBRE'])){
         <aside class="menu-sidebar d-none d-lg-block">
             <div class="logo">
                 <a href="#">
-                    <img src="assets/img/logo.png" alt="Optiwood" />
+                    <img src="../assets/img/logo.png" alt="Optiwood" />
                 </a>
             </div>
             <div class="menu-sidebar__content js-scrollbar1">
                 <nav class="navbar-sidebar">
                     <ul class="list-unstyled navbar__list">
                         <li class="has-sub">
-                            <a class="js-arrow" href="listado.php">
-                                <i class="fas fa-table"></i>Ingreso de pedido</a>
+                            <a class="js-arrow" href="#">
+                                <i class="fas fa-table"></i>Registrar Banco</a>
                         </li>
                         <li class="has-sub">
-                            <a class="js-arrow" href="buscar_pedido.php">
-                                <i class="fas fa-table"></i>Buscar pedido</a>
-                        </li>
-                        <li class="has-sub">
-                            <a class="js-arrow" href="categorias.php">
-                                <i class="fas fa-table"></i>Gestión categorías</a>
-                        </li>
-                        <li class="has-sub">
-                            <a class="js-arrow" href="clientes.php">
-                                <i class="fas fa-table"></i>Gestión clientes</a>
-                        </li>
-                        <li class="has-sub">
-                            <a class="js-arrow" href="formas_pago.php">
-                                <i class="fas fa-table"></i>Gestión formas de pago</a>
-                        </li>
-                        <li class="has-sub">
-                            <a class="js-arrow" href="banco.php">
-                                <i class="fas fa-table"></i>Gestión de bancos</a>
-                        </li>
-                        <li class="has-sub">
-                            <a class="js-arrow" href="tarjeta.php">
-                                <i class="fas fa-table"></i>Gestión de tarjetas</a>
+                            <a class="js-arrow" href="../banco.php">
+                                <i class="fas fa-table"></i>Eliminar/modificar Banco</a>
                         </li>
                        
                     </ul>
@@ -289,17 +253,56 @@ if(empty($_SESSION['NOMBRE'])){
                             <div class="col-lg-12">
                                 <div class="card">
                                     <div class="card-header">
-                                        <strong>Bienvenido al gestor de Optiwood</strong> 
+                                        <strong>Registrar tarjetas</strong> 
                                     </div>
                                     <div class="card-body card-block">
-                                        <div class="alert alert-info">
-                                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                                  
-                                                </button>
-                                                <span>
-                                                  Por favor selecciona una opción del menú.</span>
-                                          </div>
-                                      
+                                        <form method="post" class="form-group">
+                                            <label for="nombreTarjeta">Tarjeta</label>
+                                            <input name="nombreTarjeta" type="text" class="form-control" id="nombreTarjeta">
+                                            <label for="idFormaPago">Forma de pago</label>
+                                            <?php 
+                                            $linkConexion = conexionBD();
+                                            $consultaFP = "select id_forma_pago, dsc_forma_pago FROM forma_pago where activo=1 order by id_forma_pago";
+                                            $rsFormaPago=mysqli_query($linkConexion, $consultaFP);
+                                            ?> 
+                                            <select class="form-control" name="idFormaPago" id="idFormaPago">
+                                                <?php 
+                                                while($data = mysqli_fetch_array($rsFormaPago)){
+                                                    echo "<option value='".$data['id_forma_pago']."'>".$data['dsc_forma_pago']."</option>";
+                                                }
+                                                ?>
+                                            </select>
+                                            <?php
+                                            $consultaBanco = "select id_banco, dsc_banco from banco where activo = 1 order by id_banco";
+                                            $rsBanco = mysqli_query($linkConexion, $consultaBanco);
+
+                                            ?>
+                                            <label for="idBanco">Banco</label>
+                                            <select class="form-control" name="idBanco" id="idBanco">
+                                                <?php 
+                                                while($data = mysqli_fetch_array($rsBanco)){
+                                                    echo "<option value='".$data['id_banco']."'>".$data['dsc_banco']."</option>";
+                                                }
+                                                ?>
+                                            </select>
+                                            <input type="submit" class="btn btn-primary" name="btnRegistrarTarjeta" value="Registrar"/>
+                                        </form>
+                                        <pre>
+                                            <?php
+                                                print_r($_POST);
+                                            ?> 
+                                        </pre>
+                                        <?php if(!empty($_SESSION['MensajeError'])) { ?>
+                                            <div style="color:red">
+                                                <?php echo $_SESSION['MensajeError'] ?>
+                                            </div>
+                                        <?php } ?>
+                                        <?php
+                                            if(!empty($_SESSION['MensajeOK'])) { ?>
+                                            <div style="color: #13b54c;">
+                                                <?php echo $_SESSION['MensajeOK'] ?>
+                                            </div>
+                                            <?php } ?>                                      
                                     </div>
                                   
                                 </div>
@@ -315,29 +318,7 @@ if(empty($_SESSION['NOMBRE'])){
 
     </div>
 
-    <!-- Jquery JS-->
-    <script src="assets/vendor/jquery-3.2.1.min.js"></script>
-    <!-- Bootstrap JS-->
-    <script src="assets/vendor/bootstrap-4.1/popper.min.js"></script>
-    <script src="assets/vendor/bootstrap-4.1/bootstrap.min.js"></script>
-    <!-- Vendor JS       -->
-    <script src="assets/vendor/slick/slick.min.js">
-    </script>
-    <script src="assets/vendor/wow/wow.min.js"></script>
-    <script src="assets/vendor/animsition/animsition.min.js"></script>
-    <script src="assets/vendor/bootstrap-progressbar/bootstrap-progressbar.min.js">
-    </script>
-    <script src="assets/vendor/counter-up/jquery.waypoints.min.js"></script>
-    <script src="assets/vendor/counter-up/jquery.counterup.min.js">
-    </script>
-    <script src="assets/vendor/circle-progress/circle-progress.min.js"></script>
-    <script src="assets/vendor/perfect-scrollbar/perfect-scrollbar.js"></script>
-    <script src="assets/vendor/chartjs/Chart.bundle.min.js"></script>
-    <script src="assets/vendor/select2/select2.min.js">
-    </script>
-
-    <!-- Main JS-->
-    <script src="assets/js/main.js"></script>
+    <?php require_once '../includes/javascript.inc.php'; ?>
 
 </body>
 
