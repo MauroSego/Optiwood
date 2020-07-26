@@ -268,7 +268,7 @@ if (empty($_POST['btnModifFormaPago'])){
                             <div class="col-lg-12">
                                 <div class="card">
                                     <div class="card-header">
-                                        <strong>Modificar categoría</strong> 
+                                        <strong>Modificar forma de pago</strong> 
                                     </div>
                                     <div class="card-body card-block">
 										<form method="post" action="modificar_forma_pago.php?IdFormaPago=<?php echo $_GET['IdFormaPago'];?>">
@@ -282,9 +282,7 @@ if (empty($_POST['btnModifFormaPago'])){
 												<?php echo $_SESSION['MensajeOk']; ?>
 											</div>
 											<?php } ?>
-											<strong><label for="IdFormaPago">ID Categoría: </label></strong>
-											<input class="form-control" type="text" name="IdFormaPago" value="<?php echo $datoCategoria['ID_FORMA_PAGO']; ?>"/>
-											<strong><label for="nombreFormaPago">Categoría: </label></strong>
+											<strong><label for="nombreFormaPago">Forma de pago: </label></strong>
 											<input class="form-control" type="text" name="nombreFormaPago" value="<?php echo $datoCategoria['FORMA_PAGO']; ?>"/>
                                             <input type="submit" class="btn btn-primary" name="btnModifFormaPago" value="Modificar nombre de la forma de pago"/>
                                             

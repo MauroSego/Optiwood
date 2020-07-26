@@ -287,11 +287,6 @@ if(!empty($_POST['btnRegistrarTarjeta'])){
                                             </select>
                                             <input type="submit" class="btn btn-primary" name="btnRegistrarTarjeta" value="Registrar"/>
                                         </form>
-                                        <pre>
-                                            <?php
-                                                print_r($_POST);
-                                            ?> 
-                                        </pre>
                                         <?php if(!empty($_SESSION['MensajeError'])) { ?>
                                             <div style="color:red">
                                                 <?php echo $_SESSION['MensajeError'] ?>

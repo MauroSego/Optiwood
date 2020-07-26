@@ -281,7 +281,7 @@ require_once 'funciones/funciones_BD.inc.php';
                                         if(!empty($listado)){
                                             $cantTarjeta = count($listado);
                                             ?>
-                                            <h3>Listado de categorias</h3>
+                                            <h3>Listado de tarjetas</h3>
                                             <table class="table">
                                                 <tr>
                                                     <th>ID Tarjeta</th>

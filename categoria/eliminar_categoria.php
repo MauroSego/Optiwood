@@ -254,7 +254,7 @@ require_once '../funciones/funciones_BD.inc.php';
                             <div class="col-lg-12">
                                 <div class="card">
                                     <div class="card-header">
-                                        <strong>Registrar categorías</strong> 
+                                        <strong>Editar/Eliminar categorías</strong> 
                                     </div>
                                     <div class="card-body card-block">
                                         <?php 

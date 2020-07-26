@@ -282,8 +282,6 @@ if (empty($_POST['btnModifBanco'])){
 												<?php echo $_SESSION['MensajeOk']; ?>
 											</div>
 											<?php } ?>
-											<strong><label for="IdBanco">ID Categoría: </label></strong>
-											<input class="form-control" type="text" name="IdBanco" value="<?php echo $datoCategoria['ID_BANCO']; ?>"/>
 											<strong><label for="nombreBanco">Categoría: </label></strong>
 											<input class="form-control" type="text" name="nombreBanco" value="<?php echo $datoCategoria['BANCO']; ?>"/>
                                             <input type="submit" class="btn btn-primary" name="btnModifBanco" value="Modificar Banco"/>

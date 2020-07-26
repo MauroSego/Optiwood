@@ -176,11 +176,11 @@ if (empty($_POST['btnModifTarjeta'])){
                     <ul class="list-unstyled navbar__list">
                         <li class="has-sub">
                             <a class="js-arrow" href="registrar_banco.php">
-                                <i class="fas fa-table"></i>Registrar banco</a>
+                                <i class="fas fa-table"></i>Registrar tarjeta</a>
                         </li>
                         <li class="has-sub">
                             <a class="js-arrow" href="../banco.php">
-                                <i class="fas fa-table"></i>Eliminar/modificar banco</a>
+                                <i class="fas fa-table"></i>Eliminar/modificar tarjeta</a>
                         </li>
                        
                     </ul>
@@ -268,7 +268,7 @@ if (empty($_POST['btnModifTarjeta'])){
                             <div class="col-lg-12">
                                 <div class="card">
                                     <div class="card-header">
-                                        <strong>Modificar banco</strong> 
+                                        <strong>Modificar tarjeta</strong> 
                                     </div>
                                     <div class="card-body card-block">
 										<form method="post" action="modificar_tarjeta.php?IdTarjeta=<?php echo $_GET['IdTarjeta'];?>">

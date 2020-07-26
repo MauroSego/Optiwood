@@ -269,7 +269,7 @@ if (empty($_POST['btnModifCliente'])){
                             <div class="col-lg-12">
                                 <div class="card">
                                     <div class="card-header">
-                                        <strong>Modificar categoría</strong> 
+                                        <strong>Modificar cliente</strong> 
                                     </div>
                                     <div class="card-body card-block">
 										<form method="post" action="modificar_cliente.php?IdCliente=<?php echo $_GET['IdCliente'];?>">
@@ -296,7 +296,7 @@ if (empty($_POST['btnModifCliente'])){
                                             <strong><label for="telefonoCliente">Nombre: </label></strong>
                                             <input class="form-control" type="text" name="telefonoCliente" value="<?php echo $datoCliente['TELEFONO']; ?>"/>
 											<br/>
-                                            <input type="submit" class="btn btn-primary" name="btnModifCliente" value="Modificar nombre de la categoría"/>											
+                                            <input type="submit" class="btn btn-primary" name="btnModifCliente" value="Modificar cliente"/>											
 										</form>
                                     </div>
                                   

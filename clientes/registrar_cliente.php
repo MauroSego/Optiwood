@@ -252,7 +252,7 @@ if(!empty($_POST['btnRegistrarCliente'])){
                             <div class="col-lg-12">
                                 <div class="card">
                                     <div class="card-header">
-                                        <strong>Registrar categorías</strong> 
+                                        <strong>Registrar cliente</strong> 
                                     </div>
                                     <div class="card-body card-block">
                                         <form method="post" class="form-group">

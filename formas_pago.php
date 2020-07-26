@@ -272,7 +272,7 @@ require_once 'funciones/funciones_BD.inc.php';
                             <div class="col-lg-12">
                                 <div class="card">
                                     <div class="card-header">
-                                        <strong>Estás en la sección gestión de categorías</strong> 
+                                        <strong>Estás en la sección de formas de pago</strong> 
                                     </div>
                                     <div class="card-body card-block">
                                     <?php 
@@ -281,7 +281,7 @@ require_once 'funciones/funciones_BD.inc.php';
                                         if(!empty($listado)){
                                             $cantFP = count($listado);
                                             ?>
-                                            <h3>Listado de categorias</h3>
+                                            <h3>Listado de formas de pago   </h3>
                                             <table class="table">
                                                 <tr>
                                                     <th>ID Forma de pago</th>
