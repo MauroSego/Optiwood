@@ -454,4 +454,16 @@ function Modificar_Tarjeta($IdTarjeta){
 		return true;
 	}
 }
+
+/*----FUNCIONES DE PRODUCTOS-----*/
+function InsertarProducto(){
+	$insertSQL = "INSERT INTO producto (dsc_producto, id_categoria, precio, stock) VALUES ('{$_POST['nombreProducto']}', '{$_POST['idCategoria']}','{$_POST['precioProducto']}', '{$_POST['stockProducto']}')";
+	$linkConexion = conexionBD();
+
+	if(!mysqli_query($linkConexion, $insertSQL)){
+		return false;
+	} else {
+		return true;
+	}
+}
 ?>
