@@ -61,14 +61,9 @@ require_once 'funciones/funciones_BD.inc.php';
                 <nav class="navbar-sidebar">
                     <ul class="list-unstyled navbar__list">
                         <li class="has-sub">
-                            <a class="js-arrow" href="tarjeta/registrar_tarjeta.php">
-                                <i class="fas fa-table"></i>Registrar Tarjeta</a>
+                            <a class="js-arrow" href="producto/registrar_producto.php">
+                                <i class="fas fa-table"></i>Registrar producto</a>
                         </li>
-                        <li class="has-sub">
-                            <a class="js-arrow" href="#">
-                                <i class="fas fa-table"></i>Eliminar / Modificar tarjetas</a>
-                        </li>
-                       
                     </ul>
                 </nav>
             </div>
@@ -154,53 +149,62 @@ require_once 'funciones/funciones_BD.inc.php';
                             <div class="col-lg-12">
                                 <div class="card">
                                     <div class="card-header">
-                                        <strong>Estás en la sección de gestión de tarjetas</strong> 
+                                        <strong>Estás en la sección de gestión de productos</strong> 
                                     </div>
                                     <div class="card-body card-block">
                                     <?php 
-                                        $listado = ListarTarjeta();
+                                        $listado = ListarProducto();
 
                                         if(!empty($listado)){
-                                            $cantTarjeta = count($listado);
+                                            $cantProducto = count($listado);
                                             ?>
-                                            <h3>Listado de tarjetas</h3>
+                                            <h3>Listado de producto</h3>
                                             <table class="table">
                                                 <tr>
-                                                    <th>ID Tarjeta</th>
-                                                    <th>Tarjeta</th>
-                                                    <th>Forma de pago</th>
-                                                    <th>Banco</th>
+                                                    <th>Producto</th>
+                                                    <th>Categoria</th>
+                                                    <th>Precio</th>
+                                                    <th>Stock</th>
                                                     <th>Editar</th>
                                                     <th>Eliminar</th>
                                                 </tr>
-                                                <?php for($i = 0; $i < $cantTarjeta; $i++){ ?>
+                                                <?php for($i = 0; $i < $cantProducto; $i++){ ?>
                                                 <tr>
                                                     <td>
-                                                        <?php echo $listado[$i]['ID_TARJETA']; ?>
+                                                        <?php echo $listado[$i]['DSC_PRODUCTO']; ?>
                                                     </td>
                                                     <td>
-                                                        <?php echo $listado[$i]['TARJETA']; ?>
+                                                        <?php echo $listado[$i]['DSC_CATEGORIA']; ?>
                                                     </td>
                                                     <td>
-                                                        <?php echo $listado[$i]['FORMA_PAGO']; ?>
+                                                        <?php echo $listado[$i]['PRECIO']; ?>
                                                     </td>
                                                     <td>
-                                                        <?php echo $listado[$i]['BANCO']; ?>
+                                                        <?php echo $listado[$i]['STOCK']; ?>
                                                     </td>
                                                     <td>
-                                                        <a href="tarjeta/modificar_tarjeta.php?IdTarjeta=<?php echo $listado[$i]['ID_TARJETA']; ?>">Editar</a>
+                                                        <a class="btn btn-warning" href="producto/modificar_producto.php?IdProducto=<?php echo $listado[$i]['ID_PRODUCTO']; ?>">Editar</a>
                                                     </td>
                                                     <td>
-                                                        <a href="funciones/activacion_tarjeta.php?Accion=Desactivar&IdTarjeta=<?php echo $listado[$i]['ID_TARJETA']; ?>" onclick="javascript: if (confirm('Confirma eliminar este registro?')){return true;} else {return false;}">Eliminar</a>
+                                                        <input type="button" class="btn btn-danger" onClick="borrarId(<?php echo $listado[$i]['ID_PRODUCTO'];?>)" name="borrar" value="Eliminar">
                                                     </td>
                                                 </tr>
+                                                <!-- Funcion JS borrado -->
+                                                <script language="javascript">
+                                                    function borrarId(productoId){
+                                                        if(confirm("¿Confirma eliminar este registro?")){
+                                                            window.location.href="producto/eliminar.php?Accion=Desactivar&IdProducto="+productoId+'';
+                                                            return true;
+                                                        }
+                                                    }
+                                                </script>
                                             <?php    
                                             }
                                             ?>
                                             </table>
                                         <?php
                                         } else {
-                                            echo 'No hay tarjetas cargadas';
+                                            echo 'No hay productos cargados';
                                         }
                                         ?>
                                         

@@ -66,6 +66,10 @@ if(empty($_SESSION['NOMBRE'])){
                                 <i class="fas fa-table"></i>Buscar pedido</a>
                         </li>
                         <li class="has-sub">
+                            <a class="js-arrow" href="producto.php">
+                                <i class="fas fa-table"></i>Gestión productos</a>
+                        </li>
+                        <li class="has-sub">
                             <a class="js-arrow" href="categorias.php">
                                 <i class="fas fa-table"></i>Gestión categorías</a>
                         </li>

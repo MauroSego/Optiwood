@@ -466,4 +466,76 @@ function InsertarProducto(){
 		return true;
 	}
 }
+##LISTADO DE PRODUCTOS
+function ListarProducto(){
+	$ListadoProducto = array();
+	$linkConexion = conexionBD();
+	if($linkConexion != false){
+		$SQL = "SELECT t1.id_producto, t1.dsc_producto, t2.dsc_categoria, t1.precio, t1.stock from producto t1 
+		INNER JOIN categoria_producto t2 on (t1.id_categoria = t2.id_categoria) 
+		where t1.activo = 1 ORDER BY t1.dsc_producto asc";
+
+		$result = mysqli_query($linkConexion, $SQL);
+		$i = 0;
+		while ($data = mysqli_fetch_array($result)){
+			$ListadoProducto[$i]['ID_PRODUCTO'] =$data['id_producto'];
+			$ListadoProducto[$i]['DSC_PRODUCTO'] =$data['dsc_producto'];
+			$ListadoProducto[$i]['DSC_CATEGORIA'] = $data['dsc_categoria'];
+			$ListadoProducto[$i]['PRECIO'] = $data['precio'];
+			$ListadoProducto[$i]['STOCK'] = $data['stock'];
+			$i++;
+		}
+	} else {
+		echo 'Error';
+	}
+	
+	return $ListadoProducto;
+}
+
+#Trear datos tarjeta
+function TraerDatoProducto($IdProducto){
+	$DatosProducto = array();
+
+	$linkConexion = conexionBD();
+	if($linkConexion != false) {
+		$SQL = "SELECT id_producto, id_categoria, dsc_producto, precio, stock from producto where id_producto = $IdProducto";
+
+		$rs = mysqli_query($linkConexion, $SQL);
+		$i = 0;
+
+		$data = mysqli_fetch_array($rs);
+		$DatosProducto['ID_PRODUCTO'] = $data['id_producto'];
+		$DatosProducto['ID_CATEGORIA'] = $data['id_categoria'];
+		$DatosProducto['PRODUCTO'] = $data['dsc_producto'];
+		$DatosProducto['PRECIO'] = $data['precio'];
+		$DatosProducto['STOCK'] = $data['stock'];
+		
+		return $DatosProducto;
+	}
+}
+
+function Modificar_Producto($IdProducto){
+	$SQL = "UPDATE producto set dsc_producto='{$_POST['nombreProducto']}', id_categoria='{$_POST['idCategoria']}', precio='{$_POST['precio']}', stock='{$_POST['stock']}' where id_producto=$IdProducto";
+	$linkConexion = conexionBD();
+
+	if(!mysqli_query($linkConexion, $SQL)){
+		return false;	
+	} else {
+		return true;
+	}
+}
+function Activacion_producto($Activo, $IdProducto){
+	if ($Activo == 1 || $Activo == 0){
+		$SQL = "UPDATE producto set activo = $Activo WHERE id_producto = $IdProducto";
+		
+		$linkConexion = conexionBD();
+		if(!mysqli_query($linkConexion, $SQL)){
+			return false;
+		} else {
+			return true;
+		}
+	} else {
+		return false;
+	}
+}
 ?>

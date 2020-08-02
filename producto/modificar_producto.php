@@ -13,26 +13,24 @@ require_once '../funciones/conexion.inc.php';
 
 require_once '../funciones/funciones_BD.inc.php';
 
-if(empty($_GET['IdTarjeta']) || !is_numeric($_GET['IdTarjeta'])){
-	$_SESSION['MensajeError'] = "El ID de la tarjeta que desea modificar es incorrecto";
+if(empty($_GET['IdProducto']) || !is_numeric($_GET['IdProducto'])){
+	$_SESSION['MensajeError'] = "El ID del producto que desea modificar es incorrecto";
 	//header('Location: ../tarjeta.php');
 	//exit;
 }
 
-if (empty($_POST['btnModifTarjeta'])){
-	$datoTarjeta = TraerDatoTarjeta($_GET['IdTarjeta']);
+if (empty($_POST['btnModifProducto'])){
+	$datoProducto = TraerDatoProducto($_GET['IdProducto']);
 } else {
 	if(empty($_SESSION['MensajeError'])){
-		if(Modificar_Tarjeta($_GET['IdTarjeta']) != false){
+		if(Modificar_Producto($_GET['IdProducto']) != false){
 			$_SESSION['MensajeOk'] = 'Tarjeta modificada correctamente';
-			header('Location: ../tarjeta.php');
+			header('Location: ../producto.php');
 			exit;
 		} else {
 			$_SESSION['MensajeError'] = 'No se pudo modificar la tarjeta seleccionada. Intente nuevamente';
 		}
 	}
-	/*$datoCategoria['ID_CATEGORIA'] != empty($_POST['IdCategoria'])?$_POST['IdCategoria']:'';
-	$datoCategoria['CATEGORIA'] != empty($_POST['nombreCategoria'])?$_POST['nombreCategoria']:'';*/
 }
 
 ?>
@@ -150,10 +148,10 @@ if (empty($_POST['btnModifTarjeta'])){
                             <div class="col-lg-12">
                                 <div class="card">
                                     <div class="card-header">
-                                        <strong>Modificar tarjeta</strong> 
+                                        <strong>Modificar producto</strong> 
                                     </div>
                                     <div class="card-body card-block">
-										<form method="post" action="modificar_tarjeta.php?IdTarjeta=<?php echo $_GET['IdTarjeta'];?>">
+										<form method="post" action="modificar_producto.php?IdProducto=<?php echo $_GET['IdProducto'];?>">
 											<?php if(!empty($_SESSION['MensajeError'])){ ?> 
 											<div style="color: red;">
 												<?php echo $_SESSION['MensajeError']; ?>
@@ -164,36 +162,28 @@ if (empty($_POST['btnModifTarjeta'])){
 												<?php echo $_SESSION['MensajeOk']; ?>
 											</div>
 											<?php } ?>
-											<strong><label for="nombreTarjeta">Tarjeta: </label></strong>
-                                            <input class="form-control" type="text" name="nombreTarjeta" value="<?php echo $datoTarjeta['TARJETA']; ?>"/>
-                                            <strong><label for="idFormaPago">Forma de pago: </label></strong>
+											<strong><label for="nombreProducto">Producto:</label></strong>
+                                            <input class="form-control" type="text" name="nombreProducto" value="<?php echo $datoProducto['PRODUCTO'];?>"/>
+                                            <strong><label for="idCategoria">Categoria:</label></strong>
                                             <?php
                                                 $linkConexion = conexionBD();
-                                                $consultaFP = "select id_forma_pago, dsc_forma_pago from forma_pago where activo=1 order by id_forma_pago;";
-                                                $rsFormaPago = mysqli_query($linkConexion, $consultaFP);
+                                                $consultaCategoria = "select id_categoria, dsc_categoria from categoria_producto where activo=1 order by id_categoria";
+                                                $rsCategoria = mysqli_query($linkConexion, $consultaCategoria);
                                             ?>
-                                            <select name="idFormaPago" id="idFormaPago" class="form-control">
-                                                <?php 
-                                                    while($data = mysqli_fetch_array($rsFormaPago)){
-                                                        echo "<option value='".$data['id_forma_pago']."' selected='".$datoTarjeta['ID_FORMA_PAGO']."'>".$data['dsc_forma_pago']."</option>";
-                                                    }
-                                                ?>
-                                            </select>
-                                            <strong><label for="idBanco">Banco: </label></strong>
+                                            <select name="idCategoria" id="idCategoria" class="form-control">
                                             <?php
-                                                $consultaBanco = "select id_banco, dsc_banco from banco where activo=1 order by id_banco";
-                                                $rsBanco = mysqli_query($linkConexion, $consultaBanco);
-                                            ?>
-                                            <select name="idBanco" id="idBanco" class="form-control">
-                                            <?php
-                                                while($data = mysqli_fetch_array($rsBanco)){
-                                                    echo "<option value='".$data['id_banco']."' selected='".$datoTarjeta['ID_BANCO']."'>".$data['dsc_banco']."</option>";
+                                                while($data = mysqli_fetch_array($rsCategoria)){
+                                                    echo "<option value='".$data['id_categoria']."' selected='".$datoProducto['ID_CATEGORIA']."'>".$data['dsc_categoria']."</option>";
                                                 }
 
                                             ?>
                                             </select>
-                                            
-                                            <input type="submit" class="btn btn-primary" name="btnModifTarjeta" value="Modificar Tarjeta"/>
+                                            <strong><label for="precio">Precio:</label></strong>
+                                            <input class="form-control" type="text" name="precio" value="<?php echo $datoProducto['PRECIO'];?>"/>
+                                            <strong><label for="stock">Stock:</label></strong>
+                                            <input class="form-control" type="text" name="stock" value="<?php echo $datoProducto['STOCK'];?>"/>
+
+                                            <input type="submit" class="btn btn-primary" name="btnModifProducto" value="Modificar Producto"/>
                                             
 										</form>
                                     </div>
