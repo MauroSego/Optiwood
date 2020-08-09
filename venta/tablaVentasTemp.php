@@ -14,17 +14,31 @@
 		</span>
 	</caption>
 	<tr>
-		<td>Nombre Producto</td>
+		<td>Producto</td>
 		<td>Precio</td>
 		<td>Cantidad</td>
 		<td>Quitar</td>
 	</tr>
+	<?php
+	$total = 0; //esta variable tendrá el total de la compra
+	$cliente=""; //Esta variable guarda el nombre del cliente
+	if(isset($_SESSION['tablaComprasTemp'])):
+		foreach (@$_SESSION['tablaComprasTemp'] as $key) {
+			$d=explode("||", @$key);
+		
+	?>
 	<tr>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
+		<td><?php echo $d[1] ?></td>
+		<td><?php echo $d[2] ?></td>
+		<td><?php echo 1 ?></td>
+		<td>
+			<span class="btn btn-danger"><strong>x</strong></span>
+		</td>
 	</tr>
+	<?php
+	} 
+	endif;
+	?>
 </table>
 
 
