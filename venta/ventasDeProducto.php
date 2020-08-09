@@ -111,4 +111,23 @@
         } 
       })
 	}
+
+	function crearVenta(){
+		console.log('ejecutó creacion venta');
+			$.ajax({
+				url:"venta/crearVenta.php",
+				success:function(r){
+					if(r > 0){
+						$('#tablaVentasTempLoad').load("venta/tablaVentasTemp.php");
+						$('#frmVentaProductos')[0].reset();
+						alert('Venta creada exitosamente, consulte la información en Ventas Hechas');
+					} else if(r == 0){
+						alert('No hay lista de venta');
+					} else {
+						console.log(r, typeof(r));
+						alert('No se pudo crear la venta');
+					}
+				}
+			});
+	}
 </script>

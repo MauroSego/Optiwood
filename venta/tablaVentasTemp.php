@@ -9,7 +9,7 @@
 <h4><strong><div id="nombreClienteVenta"></div></strong></h4>
 <table class="table-bordered table-hover table-condensed" style="text-align:center;">
 	<caption>
-		<span class="btn btn-success">Generar venta $</span>
+		<span class="btn btn-success" onclick="crearVenta()">Generar venta $</span>
 	</caption>
 	<tr>
 		<td>Producto</td>
