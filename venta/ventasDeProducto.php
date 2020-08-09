@@ -1,9 +1,10 @@
 <?php
 	require_once '../funciones/conexion.inc.php';
 	require_once '../funciones/funciones_BD.inc.php';
+	require_once '../vistas/dependencias.php'
 ?>
 <div class="row">
-  <div class="col-sm-12">
+  <div class="col-lg-4">
       <form id="frmVentaProductos">
         <!--Cliente-->
         <label for="idCliente">Cliente</label>
@@ -42,13 +43,14 @@
         <span class="btn btn-primary" name="btnAgregarArticulo" id="btnAgregarArticulo">Agregar Producto</span> 
       </form>      
 	</div>
+	<div class="col-lg-8">
+	  <div id="tablaVentasTempLoad"></div>
+	</div>	
 </div>
-<div class="col-sm-4">
-  <div id="tablaVentasTempLoad"></div>
-</div>
+
 <script type="text/javascript">
 	$(document).ready(function(){
-
+		$('#tablaVentasTempLoad').load("venta/tablaVentasTemp.php");
 		//funcion llenar formulario
 		$('#idProducto').change(function(){
         $.ajax({
@@ -62,6 +64,27 @@
             }
 
         }) 
+    });
+
+
+    $('#btnAgregarArticulo').click(function(){
+      vacio = validarFormVacio('frmVentaProductos');
+      console.log('click agregar art');
+      if(vacios>0){
+          //alertify.alert("Debes completar todos los campos");
+          alert("Debes completar los campos");
+          return false;
+      }
+      datos=$('#frmVentaProductos').serialize();
+      $.ajax({
+        type:"POST",
+        data: datos,
+        url:'venta/agregaProductoTemp.php',
+        success:function(r){
+        	console.log('Agregó producto');
+          $('#tablaVentasTempLoad').load("venta/tablaVentasTemp.php");
+        } 
+      })
     });
 	})
 </script>

@@ -1,7 +1,6 @@
 <?php
     session_start();
     require_once "../funciones/conexion.inc.php";
-
     $linkConexion = conexionBD();
 
     $idCliente = $_POST['idCliente'];
@@ -15,7 +14,7 @@
 
     $cliente=mysqli_fetch_array($result);
 
-    $DatosCliente['NOMBRE'] = $cliente['nombre'] 
+    $DatosCliente['NOMBRE'] = $cliente['nombre']; 
     $DatosCliente['APELLIDO']= $cliente['apellido'];
 
     $nombreCliente = $DatosCliente['NOMBRE'] . " " . $DatosCliente['APELLIDO'];

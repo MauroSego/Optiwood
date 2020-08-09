@@ -159,9 +159,9 @@ require_once 'funciones/funciones_BD.inc.php';
                           <div class="card-header">
                               <strong>Estás en la sección de ventas</strong> 
                           </div>
-                          <div class="card-body card-block col-sm-4"> 
+                          <div class="card-body card-block col-lg-12"> 
                             <div class="row">
-                              <div class="col-sm-12">
+                              <div>
                                 <span class="btn btn-success" id="ventaProductosBtn">Vender producto</span>
                               </div>
                             </div>
@@ -215,27 +215,9 @@ require_once 'funciones/funciones_BD.inc.php';
       $('#ventaProductos').hide();
     }
 
-    //$('#tablaVentasTempLoad').load("venta/tablaVentasTemp.php");
+    
 
-
-    $('#btnAgregarArticulo').click(function(){
-      vacio = validarFormVacio('frmVentaProductos');
-
-      if(vacios>0){
-          //alertify.alert("Debes completar todos los campos");
-          alert("Debes completar los campos");
-          return false;
-      }
-      datos=$('#frmVentaProductos').serialize();
-      $.ajax({
-        type:"POST",
-        data: datos,
-        url:'venta/agregaProductoTemp.php',
-        success:function(r){
-          $('#tablaVentasTempLoad').load("venta/tablaVentasTemp.php");
-        } 
-      })
-    })
+    
 
     
   });
