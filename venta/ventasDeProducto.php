@@ -46,3 +46,22 @@
 <div class="col-sm-4">
   <div id="tablaVentasTempLoad"></div>
 </div>
+<script type="text/javascript">
+	$(document).ready(function(){
+
+		//funcion llenar formulario
+		$('#idProducto').change(function(){
+        $.ajax({
+            type:"POST",
+            data:"idProducto=" + $('#idProducto').val(),
+            url: 'venta/llenarFormProducto.php',
+            success:function(r){
+                var dato = jQuery.parseJSON(r);
+                $('#precio').val(dato.PRECIO);
+                $('#stock').val(dato.STOCK);
+            }
+
+        }) 
+    });
+	})
+</script>

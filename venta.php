@@ -217,19 +217,7 @@ require_once 'funciones/funciones_BD.inc.php';
 
     //$('#tablaVentasTempLoad').load("venta/tablaVentasTemp.php");
 
-    $('#idProducto').change(function(){
-        $.ajax({
-            type:"POST",
-            data:"idProducto=" + $('#idProducto').val(),
-            url: 'venta/llenarFormProducto.php',
-            success:function(r){
-                var dato = jQuery.parseJSON(r);
-                $('#precio').val(dato.PRECIO);
-                $('#stock').val(dato.STOCK);
-            }
 
-        }) 
-    });
     $('#btnAgregarArticulo').click(function(){
       vacio = validarFormVacio('frmVentaProductos');
 
