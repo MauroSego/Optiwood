@@ -1,5 +1,5 @@
 <?php
- /*   session_start();
+    session_start();
     require_once "../funciones/conexion.inc.php";
 
     $linkConexion = conexionBD();
@@ -33,5 +33,5 @@
                 $nombreCliente;
 
     $_SESSION['tablaComprasTemp'][] = $articulo;
-*/
+
 ?>

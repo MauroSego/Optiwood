@@ -30,9 +30,7 @@ require_once 'funciones/funciones_BD.inc.php';
 <link href="assets/vendor/font-awesome-5/css/fontawesome-all.min.css" rel="stylesheet" media="all">
 <link href="assets/vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
 <link href="assets/vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
-<link rel="stylesheet" href="text/css" href="assets/vendor/alertify/css/alertify.css">
-<link rel="stylesheet" href="text/css" href="assets/vendor/alertify/css/alertify.css/themes/defualt.css">
-<link rel="stylesheet" href="text/css" href="assets/vendor/select2/select2.min.css">
+<link href="assets/vendor/select2/select2.min.css" rel="stylesheet" href="text/css" >
 
 <!-- Bootstrap CSS-->
 <link href="assets/vendor/bootstrap-4.1/bootstrap.min.css" rel="stylesheet" media="all">
@@ -162,46 +160,58 @@ require_once 'funciones/funciones_BD.inc.php';
                               <strong>Estás en la sección de ventas</strong> 
                           </div>
                           <div class="card-body card-block col-sm-4"> 
-                            <form id="frmVentaProductos">
-                              <!--Cliente-->
-                              <label for="idCliente">Cliente</label>
-                              <?php 
-                              $linkConexion = conexionBD();
-                              $consultaCliente = "SELECT id_cliente, nombre, apellido FROM cliente where activo=1 order by apellido asc";
-                              $rsCliente=mysqli_query($linkConexion, $consultaCliente);
-                              ?> 
-                              <select class="form-control" name="idCliente" id="idCliente">
-                                  <option value="A">Selecciona</option>
-                                  <option value="0">Sin Cliente</option>
-                                  <?php 
-                                  while($data = mysqli_fetch_array($rsCliente)){
-                                      echo "<option value='".$data['id_cliente']."'>".$data['apellido'] . ' '. $data['nombre']."</option>";
-                                  }
-                                  ?>
-                              </select>
-                              <!--Producto-->
-                              <?php
-                              $consultaProducto = "SELECT id_producto, dsc_producto, precio, stock FROM producto where activo=1 order by dsc_producto asc";
-                              $rsProducto=mysqli_query($linkConexion, $consultaProducto)
-                              ?>
-                              <label for="idProducto">Producto</label>
-                              <select class="form-control" name="idProducto" id="idProducto">
-                                  <option value="-1">Selecciona</option>
-                                  <?php 
-                                  while($data = mysqli_fetch_array($rsProducto)){
-                                      echo "<option value='".$data['id_producto']."'>".$data['dsc_producto']."</option>";
-                                  }
-                                  ?>
-                              </select>
-                              <label for="precio">Precio</label>
-                              <input type="text" readonly="" class="form-control input-sm" id="precio" name="precio">
-                              <label for="stock">Stock</label>
-                              <input type="text" readonly="" class="form-control input-sm" id="stock" name="stock">
-                              <span class="btn btn-primary" name="btnAgregarArticulo" id="btnAgregarArticulo">Agregar</span> 
-                            </form>
-                            <div class="col-sm-4">
-                                  <div id="tablaVentasTempLoad"></div>
+                            <div class="row">
+                              <div class="col-sm-12">
+                                <span class="btn btn-success" id="ventaProductosBtn">Vender producto</span>
+                              </div>
                             </div>
+                            <div class="row">
+                              <div class="col-sm-12">
+                                <div id="ventaProductos">
+                                  <form id="frmVentaProductos">
+                                    <!--Cliente-->
+                                    <label for="idCliente">Cliente</label>
+                                    <?php 
+                                    $linkConexion = conexionBD();
+                                    $consultaCliente = "SELECT id_cliente, nombre, apellido FROM cliente where activo=1 order by apellido asc";
+                                    $rsCliente=mysqli_query($linkConexion, $consultaCliente);
+                                    ?> 
+                                    <select class="form-control" name="idCliente" id="idCliente">
+                                      <option value="A">Selecciona</option>
+                                      <option value="0">Sin Cliente</option>
+                                      <?php 
+                                      while($data = mysqli_fetch_array($rsCliente)){
+                                          echo "<option value='".$data['id_cliente']."'>".$data['apellido'] . ' '. $data['nombre']."</option>";
+                                      }
+                                      ?>
+                                    </select>
+                                    <!--Producto-->
+                                    <?php
+                                    $consultaProducto = "SELECT id_producto, dsc_producto, precio, stock FROM producto where activo=1 order by dsc_producto asc";
+                                    $rsProducto=mysqli_query($linkConexion, $consultaProducto)
+                                    ?>
+                                    <label for="idProducto">Producto</label>
+                                    <select class="form-control" name="idProducto" id="idProducto">
+                                      <option value="-1">Selecciona</option>
+                                      <?php 
+                                      while($data = mysqli_fetch_array($rsProducto)){
+                                          echo "<option value='".$data['id_producto']."'>".$data['dsc_producto']."</option>";
+                                      }
+                                      ?>
+                                    </select>
+                                    <label for="precio">Precio</label>
+                                    <input type="text" readonly="" class="form-control input-sm" id="precio" name="precio">
+                                    <label for="stock">Stock</label>
+                                    <input type="text" readonly="" class="form-control input-sm" id="stock" name="stock">
+                                    <span class="btn btn-primary" name="btnAgregarArticulo" id="btnAgregarArticulo">Agregar Producto</span> 
+                                  </form>      
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-sm-4">
+                              <div id="tablaVentasTempLoad"></div>
+                            </div>
+                            
                           </div>
                         
                       </div>
@@ -226,7 +236,29 @@ require_once 'funciones/funciones_BD.inc.php';
 
 <script type="text/javascript">
   $(document).ready(function(){
-    $('#tablaVentasTempLoad').load("venta/tablaVentasTemp.php");
+
+    var estadoHide = 0;
+    esconderSeccionVenta();
+    $('#ventaProductosBtn').click(function(){
+      if(estadoHide == 0){
+        console.log('mostrar');
+        mostrarSeccionVenta();
+        estadoHide = 1;  
+      } else {
+        esconderSeccionVenta();
+        estadoHide =0;
+      }
+      
+    });
+
+    function mostrarSeccionVenta(){
+      $('#ventaProductos').show();
+    }
+    function esconderSeccionVenta(){
+      $('#ventaProductos').hide();
+    }
+
+    //$('#tablaVentasTempLoad').load("venta/tablaVentasTemp.php");
 
     $('#idProducto').change(function(){
         $.ajax({
@@ -245,19 +277,17 @@ require_once 'funciones/funciones_BD.inc.php';
       vacio = validarFormVacio('frmVentaProductos');
 
       if(vacios>0){
-          /*alertify.alert("Debes completar todos los campos");*/
+          //alertify.alert("Debes completar todos los campos");
           alert("Debes completar los campos");
           return false;
-      } else {
-        alert("Todo ok");
       }
-
       datos=$('#frmVentaProductos').serialize();
       $.ajax({
         type:"POST",
         data: datos,
         url:'venta/agregaProductoTemp.php',
         success:function(r){
+          $('#tablaVentasTempLoad').load("venta/tablaVentasTemp.php");
         } 
       })
     })
