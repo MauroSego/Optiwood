@@ -99,3 +99,16 @@
     
 	})
 </script>
+<script type="text/javascript">
+	function quitarP(index){
+		$.ajax({
+        type:"POST",
+        data: "ind="+index,
+        url:'venta/quitarproducto.php',
+        success:function(r){
+        	$('#tablaVentasTempLoad').load("venta/tablaVentasTemp.php");
+        	alert("Se quitó el producto");
+        } 
+      })
+	}
+</script>
