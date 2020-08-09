@@ -41,6 +41,7 @@
         <label for="stock">Stock</label>
         <input type="text" readonly="" class="form-control input-sm" id="stock" name="stock">
         <span class="btn btn-primary" name="btnAgregarArticulo" id="btnAgregarArticulo">Agregar Producto</span> 
+        <span class="btn btn-danger" id="btnVaciarVentas">Vaciar ventas</span>
       </form>      
 	</div>
 	<div class="col-lg-8">
@@ -86,5 +87,15 @@
         } 
       })
     });
+
+    $('#btnVaciarVentas').click(function(){
+    	$.ajax({
+        url:'venta/vaciarTemp.php',
+        success:function(r){
+        	$('#tablaVentasTempLoad').load("venta/tablaVentasTemp.php");
+        } 
+      })
+    });
+    
 	})
 </script>
