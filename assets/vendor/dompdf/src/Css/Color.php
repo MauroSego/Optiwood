@@ -14,7 +14,7 @@ use Dompdf\Helpers;
 
 class Color
 {
-    static $cssColorNames = [
+    static $cssColorNames = array(
         "aliceblue" => "F0F8FF",
         "antiquewhite" => "FAEBD7",
         "aqua" => "00FFFF",
@@ -162,7 +162,7 @@ class Color
         "whitesmoke" => "F5F5F5",
         "yellow" => "FFFF00",
         "yellowgreen" => "9ACD32",
-    ];
+    );
 
     /**
      * @param $color
@@ -170,17 +170,13 @@ class Color
      */
     static function parse($color)
     {
-        if ($color === null) {
-            return null;
-        }
-
         if (is_array($color)) {
             // Assume the array has the right format...
             // FIXME: should/could verify this.
             return $color;
         }
 
-        static $cache = [];
+        static $cache = array();
 
         $color = strtolower($color);
 
@@ -188,7 +184,7 @@ class Color
             return $cache[$color];
         }
 
-        if (in_array($color, ["transparent", "inherit"])) {
+        if (in_array($color, array("transparent", "inherit"))) {
             return $cache[$color] = $color;
         }
 
@@ -212,7 +208,7 @@ class Color
         else if ($length == 9 && $color[0] === "#") {
             $alpha = round(hexdec(mb_substr($color, 7, 2))/255, 2);
             return $cache[$color] = self::getArray(mb_substr($color, 1, 8), $alpha);
-        } // rgb( r,g,b ) / rgba( r,g,b,α ) format
+        } // rgb( r,g,b ) / rgbaa( r,g,b,α ) format
         else if (mb_strpos($color, "rgb") !== false) {
             $i = mb_strpos($color, "(");
             $j = mb_strpos($color, ")");
@@ -285,7 +281,7 @@ class Color
      */
     static function getArray($color, $alpha = 1.0)
     {
-        $c = [null, null, null, null, "alpha" => $alpha, "hex" => null];
+        $c = array(null, null, null, null, "alpha" => $alpha, "hex" => null);
 
         if (is_array($color)) {
             $c = $color;

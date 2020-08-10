@@ -65,5 +65,33 @@
                 return $id + 1;
             }
         }
+
+        public function nombreCliente($idCliente){
+            $linkConexion = conexionBD();
+
+            $sql="SELECT apellido,nombre 
+                from cliente 
+                where id_cliente='$idCliente'";
+            $result=mysqli_query($linkConexion,$sql);
+
+            $ver=mysqli_fetch_row($result);
+
+            return $ver[0]." ".$ver[1];
+        }
+
+        public function obtenerTotal($idventa){
+            $linkConexion = conexionBD();
+            $sql="SELECT precio 
+                    from venta 
+                    where id_venta='$idventa'";
+            $result=mysqli_query($linkConexion,$sql);
+
+            $total=0;
+
+            while($ver=mysqli_fetch_row($result)){
+                $total=$total + $ver[0];
+            }
+            return '$'.$total;
+        }
     }
 ?>

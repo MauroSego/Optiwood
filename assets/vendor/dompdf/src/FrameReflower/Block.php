@@ -8,6 +8,7 @@
  */
 namespace Dompdf\FrameReflower;
 
+use Dompdf\FontMetrics;
 use Dompdf\Frame;
 use Dompdf\FrameDecorator\Block as BlockFrameDecorator;
 use Dompdf\FrameDecorator\TableCell as TableCellFrameDecorator;
@@ -60,13 +61,13 @@ class Block extends AbstractFrameReflower
         $right = $style->length_in_pt($style->right, $w);
 
         // Handle 'auto' values
-        $dims = [$style->border_left_width,
+        $dims = array($style->border_left_width,
             $style->border_right_width,
             $style->padding_left,
             $style->padding_right,
             $width !== "auto" ? $width : 0,
             $rm !== "auto" ? $rm : 0,
-            $lm !== "auto" ? $lm : 0];
+            $lm !== "auto" ? $lm : 0);
 
         // absolutely positioned boxes take the 'left' and 'right' properties into account
         if ($frame->is_absolute()) {
@@ -156,13 +157,13 @@ class Block extends AbstractFrameReflower
             $rm = $diff;
         }
 
-        return [
+        return array(
             "width" => $width,
             "margin_left" => $lm,
             "margin_right" => $rm,
             "left" => $left,
             "right" => $right,
-        ];
+        );
     }
 
     /**
@@ -207,7 +208,7 @@ class Block extends AbstractFrameReflower
         $max_width = $style->length_in_pt($style->max_width, $cb["w"]);
 
         if ($max_width !== "none" && $min_width > $max_width) {
-            list($max_width, $min_width) = [$min_width, $max_width];
+            list($max_width, $min_width) = array($min_width, $max_width);
         }
 
         if ($max_width !== "none" && $width > $max_width) {
@@ -223,7 +224,7 @@ class Block extends AbstractFrameReflower
             $right =  $calculate_width['right'];
         }
 
-        return [$width, $margin_left, $margin_right, $left, $right];
+        return array($width, $margin_left, $margin_right, $left, $right);
     }
 
     /**
@@ -269,7 +270,7 @@ class Block extends AbstractFrameReflower
 
             // see http://www.w3.org/TR/CSS21/visudet.html#abs-non-replaced-height
 
-            $dims = [$top !== "auto" ? $top : 0,
+            $dims = array($top !== "auto" ? $top : 0,
                 $style->margin_top !== "auto" ? $style->margin_top : 0,
                 $style->padding_top,
                 $style->border_top_width,
@@ -277,7 +278,7 @@ class Block extends AbstractFrameReflower
                 $style->border_bottom_width,
                 $style->padding_bottom,
                 $style->margin_bottom !== "auto" ? $style->margin_bottom : 0,
-                $bottom !== "auto" ? $bottom : 0];
+                $bottom !== "auto" ? $bottom : 0);
 
             $sum = (float)$style->length_in_pt($dims, $cb["h"]);
 
@@ -383,13 +384,17 @@ class Block extends AbstractFrameReflower
             // _calculate_restricted_width
 
             // Only handle min/max height if the height is independent of the frame's content
-            if (!($style->overflow === "visible" || ($style->overflow === "hidden" && $height === "auto"))) {
+            if (!($style->overflow === "visible" ||
+                ($style->overflow === "hidden" && $height === "auto"))
+            ) {
+
                 $min_height = $style->min_height;
                 $max_height = $style->max_height;
 
                 if (isset($cb["h"])) {
                     $min_height = $style->length_in_pt($min_height, $cb["h"]);
                     $max_height = $style->length_in_pt($max_height, $cb["h"]);
+
                 } else if (isset($cb["w"])) {
                     if (mb_strpos($min_height, "%") !== false) {
                         $min_height = 0;
@@ -406,7 +411,7 @@ class Block extends AbstractFrameReflower
 
                 if ($max_height !== "none" && $min_height > $max_height) {
                     // Swap 'em
-                    list($max_height, $min_height) = [$min_height, $max_height];
+                    list($max_height, $min_height) = array($min_height, $max_height);
                 }
 
                 if ($max_height !== "none" && $height > $max_height) {
@@ -419,7 +424,7 @@ class Block extends AbstractFrameReflower
             }
         }
 
-        return [$height, $margin_top, $margin_bottom, $top, $bottom];
+        return array($height, $margin_top, $margin_bottom, $top, $bottom);
     }
 
     /**
@@ -586,7 +591,7 @@ class Block extends AbstractFrameReflower
                         continue;
                     }
                     $frameBox = $frame->get_frame()->get_border_box();
-                    $imageHeightDiff = $height * 0.8 - (float)$frameBox['h'];
+                    $imageHeightDiff = $height * 0.8 - $frameBox['h'];
 
                     $align = $frame->get_style()->vertical_align;
                     if (in_array($align, Style::$vertical_align_keywords) === true) {
@@ -604,7 +609,7 @@ class Block extends AbstractFrameReflower
                                 break;
 
                             case "text-top": // FIXME: this should be the height of the frame minus the height of the text
-                                $y_offset = $height - $style->line_height;
+                                $y_offset = $height - (float)$style->length_in_pt($style->get_line_height(), $style->font_size);
                                 break;
 
                             case "top":
@@ -621,7 +626,7 @@ class Block extends AbstractFrameReflower
                                 break;
                         }
                     } else {
-                        $y_offset = $baseline - (float)$style->length_in_pt($align, $style->font_size) - (float)$frameBox['h'];
+                        $y_offset = $baseline - (float)$style->length_in_pt($align, $style->font_size) - $frameBox['h'];
                     }
                 } else {
                     $parent = $frame->get_parent();
@@ -810,16 +815,16 @@ class Block extends AbstractFrameReflower
         $this->_frame->increase_line_width($indent);
 
         // Determine the content edge
-        $top = (float)$style->length_in_pt([$style->margin_top,
+        $top = (float)$style->length_in_pt(array($style->margin_top,
             $style->padding_top,
-            $style->border_top_width], $cb["h"]);
+            $style->border_top_width), $cb["h"]);
 
-        $bottom = (float)$style->length_in_pt([$style->border_bottom_width,
+        $bottom = (float)$style->length_in_pt(array($style->border_bottom_width,
             $style->margin_bottom,
-            $style->padding_bottom], $cb["h"]);
+            $style->padding_bottom), $cb["h"]);
 
-        $cb_x = $x + (float)$left_margin + (float)$style->length_in_pt([$style->border_left_width,
-                $style->padding_left], $cb["w"]);
+        $cb_x = $x + (float)$left_margin + (float)$style->length_in_pt(array($style->border_left_width,
+                $style->padding_left), $cb["w"]);
 
         $cb_y = $y + $top;
 

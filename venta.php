@@ -29,6 +29,9 @@ require_once 'funciones/funciones_BD.inc.php';
 <link href="assets/css/font-face.css" rel="stylesheet" media="all">
 <link href="assets/vendor/font-awesome-5/css/fontawesome-all.min.css" rel="stylesheet" media="all">
 <link href="assets/vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
+<link href="assets/vendor/fontawesome-free-5.14.0-web/css/fontawesome.css" rel="stylesheet" media="all">
+<link href="assets/vendor/fontawesome-free-5.14.0-web/css/brands.css" rel="stylesheet" media="all">
+<link href="assets/vendor/fontawesome-free-5.14.0-web/css/solid.css" rel="stylesheet" media="all">
 <link href="assets/vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
 <link href="assets/vendor/select2/select2.min.css" rel="stylesheet" href="text/css" >
 
@@ -164,9 +167,15 @@ require_once 'funciones/funciones_BD.inc.php';
                               <div>
                                 <span class="btn btn-success" id="ventaProductosBtn">Vender producto</span>
                               </div>
+                              <div>
+                                <span class="btn btn-success" id="ventasHechasBtn">Ventas hechas</span>
+                              </div>
                             </div>
                             <div id="ventaProductos">
                             <!--Formulario-->
+                            </div>
+                            <div id="ventasHechas">
+                              
                             </div>
                           </div>
                         
@@ -193,28 +202,47 @@ require_once 'funciones/funciones_BD.inc.php';
 <script type="text/javascript">
   $(document).ready(function(){
 
-    var estadoHide = 0;
+    var estadoHideVenta = 0;
+    var estadoHideVentaHecha = 0;
     esconderSeccionVenta();
+    esconderSeccionVentaHecha();
     $('#ventaProductosBtn').click(function(){
-      if(estadoHide == 0){
-        console.log('mostrar');
+      if(estadoHideVenta == 0){
         mostrarSeccionVenta();
         $('#ventaProductos').load('venta/ventasDeProducto.php');
-        estadoHide = 1;  
+        estadoHideVenta = 1;  
       } else {
         esconderSeccionVenta();
-        estadoHide =0;
+        estadoHideVenta =0;
+      }
+      
+    });
+    $('#ventasHechasBtn').click(function(){
+      if(estadoHideVentaHecha == 0){
+        mostrarSeccionVentaHecha();
+        $('#ventasHechas').load('venta/ventasyReportes.php');
+        estadoHideVentaHecha = 1;  
+      } else {
+        esconderSeccionVentaHecha();
+        estadoHideVentaHecha =0;
       }
       
     });
 
     function mostrarSeccionVenta(){
       $('#ventaProductos').show();
+      esconderSeccionVentaHecha();
     }
     function esconderSeccionVenta(){
       $('#ventaProductos').hide();
     }
-
+    function mostrarSeccionVentaHecha(){
+      $('#ventasHechas').show();
+      esconderSeccionVenta();
+    }
+    function esconderSeccionVentaHecha(){
+      $('#ventasHechas').hide();
+    }
     
 
     
